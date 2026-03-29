@@ -534,12 +534,24 @@ function renderCheckout(container) {
          <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius: var(--radius-md); padding:24px;">
            <h3 style="font-size:16px; margin-bottom:16px; border-bottom:1px solid var(--border-subtle); padding-bottom:12px;">Payment Method</h3>
            <div style="display:flex; flex-direction:column; gap:12px;">
-             <label style="display:flex; align-items:center; gap:12px; padding:16px; border:1px solid var(--accent-gold); background:rgba(212,165,116,0.05); border-radius:8px; cursor:pointer;">
-               <input type="radio" name="paymethod" value="razorpay" checked />
-               <span style="font-weight:600;">💳 Razorpay — UPI, Card, Netbanking, Wallet</span>
+
+             <label id="pay-opt-upi" style="display:flex; align-items:center; gap:12px; padding:16px; border:2px solid var(--accent-gold); background:rgba(212,165,116,0.08); border-radius:8px; cursor:pointer; transition:all 0.2s;" onclick="selectPayMethod('upi')">
+               <input type="radio" name="paymethod" value="upi" checked />
+               <div>
+                 <span style="font-weight:700; font-size:15px;">📱 UPI — Scan QR Code</span>
+                 <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Google Pay · PhonePe · Paytm · Any UPI app</div>
+               </div>
              </label>
+
+             <label id="pay-opt-razorpay" style="display:flex; align-items:center; gap:12px; padding:16px; border:1px solid var(--border-subtle); background:var(--bg-input); border-radius:8px; cursor:pointer; transition:all 0.2s;" onclick="selectPayMethod('razorpay')">
+               <input type="radio" name="paymethod" value="razorpay" />
+               <div>
+                 <span style="font-weight:700; font-size:15px;">💳 Razorpay Gateway</span>
+                 <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">Credit/Debit Card · Netbanking · Wallet · UPI via Razorpay</div>
+               </div>
+             </label>
+
            </div>
-           <p style="font-size:11px; color:var(--text-muted); margin-top:12px;">Powered by Razorpay. All payment methods supported securely.</p>
          </div>
       </div>
       
@@ -555,30 +567,177 @@ function renderCheckout(container) {
         </div>
       </div>
     </div>
+
+    <!-- UPI QR Payment Overlay -->
+    <div id="upi-overlay" style="display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.95); backdrop-filter:blur(16px); justify-content:center; align-items:center;">
+      <div style="text-align:center; max-width:420px; width:90%;">
+        
+        <div style="margin-bottom:24px;">
+          <div style="font-size:12px; letter-spacing:3px; color:#d4a574; margin-bottom:8px; font-weight:600;">SCAN & PAY</div>
+          <h2 style="font-family:var(--font-display); font-size:28px; color:#fff; margin-bottom:4px;">${formatCurrency(total)}</h2>
+          <p style="color:var(--text-secondary); font-size:13px;">Scan the QR code below with any UPI app</p>
+        </div>
+
+        <div style="background:#ffffff; border-radius:16px; padding:24px; display:inline-block; margin-bottom:20px; position:relative;">
+          <div id="upi-qr-code" style="margin:0 auto;"></div>
+          <div style="margin-top:12px; font-size:12px; color:#333; font-weight:600;">UPI ID: ap2446961@okicici</div>
+          <div style="font-size:11px; color:#666; margin-top:2px;">Arijit Pal</div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+            <div id="scan-spinner" style="width:20px; height:20px; border:3px solid rgba(255,255,255,0.15); border-top-color:#10b981; border-radius:50%; animation: upi-spin 0.8s linear infinite;"></div>
+            <span id="scan-status-text" style="color:#10b981; font-weight:600; font-size:14px;">Waiting for payment…</span>
+          </div>
+          <div style="margin-top:12px;">
+            <div style="background:rgba(255,255,255,0.08); border-radius:100px; height:6px; width:260px; margin:0 auto; overflow:hidden;">
+              <div id="scan-progress-bar" style="height:100%; width:100%; background:linear-gradient(90deg, #10b981, #34d399); border-radius:100px; transition:width 1s linear;"></div>
+            </div>
+            <div id="scan-timer" style="color:var(--text-secondary); font-size:22px; font-weight:700; margin-top:10px; font-family:var(--font-display);">15</div>
+          </div>
+        </div>
+
+        <button onclick="cancelUpiPayment()" style="padding:10px 28px; border-radius:var(--radius-sm); border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); color:var(--text-secondary); cursor:pointer; font-size:13px; transition:all 0.2s;">Cancel</button>
+      </div>
+    </div>
+
+    <style>
+      @keyframes upi-spin { to { transform: rotate(360deg); } }
+    </style>
   `;
   container.innerHTML = html;
 }
 
-// ── Razorpay Payment Server ──────────────────────────────────
+// ── Payment Method Selection UI ──────────────────────────────
+window.selectPayMethod = function(method) {
+  const upiOpt = document.getElementById('pay-opt-upi');
+  const rzpOpt = document.getElementById('pay-opt-razorpay');
+  if (method === 'upi') {
+    upiOpt.style.border = '2px solid var(--accent-gold)';
+    upiOpt.style.background = 'rgba(212,165,116,0.08)';
+    rzpOpt.style.border = '1px solid var(--border-subtle)';
+    rzpOpt.style.background = 'var(--bg-input)';
+    document.querySelector('input[value="upi"]').checked = true;
+  } else {
+    rzpOpt.style.border = '2px solid var(--accent-gold)';
+    rzpOpt.style.background = 'rgba(212,165,116,0.08)';
+    upiOpt.style.border = '1px solid var(--border-subtle)';
+    upiOpt.style.background = 'var(--bg-input)';
+    document.querySelector('input[value="razorpay"]').checked = true;
+  }
+};
+
+// ── Payment Server Config ────────────────────────────────────
 const PAYMENT_SERVER = 'http://localhost:4000';
 const RAZORPAY_KEY_ID = 'rzp_test_SX8U1HsCZTRftK';
+
+let upiTimerInterval = null;
 
 window.processPayment = async function() {
   state.userName = document.getElementById('chk-name').value;
   state.userMobile = document.getElementById('chk-mobile').value;
   state.userEmail = document.getElementById('chk-email').value;
 
+  const selectedMethod = document.querySelector('input[name="paymethod"]:checked').value;
+
+  if (selectedMethod === 'upi') {
+    processUpiPayment();
+  } else {
+    processRazorpayPayment();
+  }
+};
+
+// ── UPI QR Scan Payment ──────────────────────────────────────
+function processUpiPayment() {
+  const total = calculateSeatTotal(state.selectedAudi, state.selectedSeats) + calculateFoodTotal(state.foodItems) + 30;
+
+  // Show overlay
+  const overlay = document.getElementById('upi-overlay');
+  overlay.style.display = 'flex';
+
+  // Generate UPI QR
+  const upiUrl = `upi://pay?pa=ap2446961@okicici&pn=Arijit%20Pal&am=${total.toFixed(2)}&cu=INR&tn=MOViEON%20Ticket`;
+  const qrContainer = document.getElementById('upi-qr-code');
+  qrContainer.innerHTML = '';
+  if (typeof QRCode !== 'undefined') {
+    new QRCode(qrContainer, {
+      text: upiUrl,
+      width: 220,
+      height: 220,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+
+  // 15-second countdown
+  let remaining = 15;
+  const timerEl = document.getElementById('scan-timer');
+  const progressBar = document.getElementById('scan-progress-bar');
+  const statusText = document.getElementById('scan-status-text');
+  const spinner = document.getElementById('scan-spinner');
+
+  // Reset state
+  timerEl.textContent = remaining;
+  timerEl.style.color = 'var(--text-secondary)';
+  progressBar.style.width = '100%';
+  statusText.textContent = 'Waiting for payment…';
+  statusText.style.color = '#10b981';
+  spinner.style.display = 'block';
+  spinner.style.borderTopColor = '#10b981';
+
+  upiTimerInterval = setInterval(() => {
+    remaining--;
+    timerEl.textContent = remaining;
+    progressBar.style.width = `${(remaining / 15) * 100}%`;
+
+    if (remaining <= 5) {
+      statusText.textContent = 'Confirming payment…';
+      spinner.style.borderTopColor = '#fbbf24';
+    }
+
+    if (remaining <= 0) {
+      clearInterval(upiTimerInterval);
+      upiTimerInterval = null;
+
+      statusText.textContent = '✅ Payment received!';
+      spinner.style.display = 'none';
+      timerEl.textContent = '✓';
+      timerEl.style.color = '#10b981';
+      progressBar.style.width = '0%';
+
+      createBooking(state);
+      showToast('UPI Payment Successful! Generating Ticket...', 'success');
+
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        navigate('confirmation');
+      }, 1500);
+    }
+  }, 1000);
+}
+
+window.cancelUpiPayment = function() {
+  if (upiTimerInterval) {
+    clearInterval(upiTimerInterval);
+    upiTimerInterval = null;
+  }
+  const overlay = document.getElementById('upi-overlay');
+  if (overlay) overlay.style.display = 'none';
+  showToast('Payment cancelled', 'error');
+};
+
+// ── Razorpay Gateway Payment ─────────────────────────────────
+async function processRazorpayPayment() {
   const total = calculateSeatTotal(state.selectedAudi, state.selectedSeats) + calculateFoodTotal(state.foodItems) + 30;
   const amountPaise = Math.round(total * 100);
 
-  // Disable button while loading
   const payBtn = document.getElementById('btn-pay-now');
   payBtn.disabled = true;
   payBtn.textContent = 'Creating order…';
   payBtn.style.opacity = '0.6';
 
   try {
-    // 1️⃣ Create order on backend
     const movie = MOVIES.find(m => m.id === state.selectedMovie);
     const orderResp = await fetch(`${PAYMENT_SERVER}/create-order`, {
       method: 'POST',
@@ -601,7 +760,6 @@ window.processPayment = async function() {
 
     const { orderId } = await orderResp.json();
 
-    // 2️⃣ Open Razorpay Checkout
     const options = {
       key: RAZORPAY_KEY_ID,
       amount: amountPaise,
@@ -618,7 +776,6 @@ window.processPayment = async function() {
         color: '#d4a574'
       },
       handler: async function(response) {
-        // 3️⃣ Verify signature on server
         try {
           const verifyResp = await fetch(`${PAYMENT_SERVER}/verify-payment`, {
             method: 'POST',
@@ -633,7 +790,6 @@ window.processPayment = async function() {
           const verifyData = await verifyResp.json();
 
           if (verifyData.verified) {
-            // ✅ Payment verified — create booking
             createBooking(state);
             showToast(`Payment verified! ID: ${response.razorpay_payment_id}`, 'success');
             setTimeout(() => navigate('confirmation'), 800);
@@ -642,7 +798,6 @@ window.processPayment = async function() {
             resetPayButton();
           }
         } catch (verifyErr) {
-          // Verification call failed but payment may have succeeded
           console.error('Verify error:', verifyErr);
           createBooking(state);
           showToast('Payment received! Generating ticket...', 'success');
@@ -658,12 +813,10 @@ window.processPayment = async function() {
     };
 
     const rzp = new Razorpay(options);
-
     rzp.on('payment.failed', function(response) {
       showToast(`Payment failed: ${response.error.description}`, 'error');
       resetPayButton();
     });
-
     rzp.open();
 
   } catch (err) {
@@ -671,7 +824,7 @@ window.processPayment = async function() {
     showToast(err.message || 'Payment failed — is the server running?', 'error');
     resetPayButton();
   }
-};
+}
 
 function resetPayButton() {
   const payBtn = document.getElementById('btn-pay-now');
