@@ -1,5 +1,11 @@
 # 🎬 MOViEON — Premium Cinema Booking System
 
+DEVELOPED BY ARIJIT PAL
+CSE(DATA SCIENCE)
+ROLL 02
+ENROLLMENT - 12024002037046
+DEPLOYED LINK : https://mo-alpha-ten.vercel.app/
+
 A sleek, dark-themed movie ticket booking web application for **PVR INOX — Uniworld City Downtown Mall, Kolkata**. Built with vanilla HTML, CSS & JavaScript — no frameworks, no build steps.
 
 ![MOViEON Home](https://img.shields.io/badge/Status-Live-brightgreen) ![License](https://img.shields.io/badge/License-MIT-blue) ![Made with](https://img.shields.io/badge/Made%20with-Vanilla%20JS-yellow)
