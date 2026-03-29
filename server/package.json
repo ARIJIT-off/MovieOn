@@ -1,0 +1,14 @@
+{
+  "name": "movieon-payment-server",
+  "version": "1.0.0",
+  "description": "Razorpay order creation server for MOViEON",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "razorpay": "^2.9.2"
+  }
+}
