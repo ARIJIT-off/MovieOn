@@ -156,8 +156,9 @@ img { max-width: 100%; display: block; }
 }
 
 .header__title span {
-  font-weight: 400;
-  opacity: 0.7;
+  font-weight: 800;
+  -webkit-text-fill-color: #e8c547;
+  opacity: 1;
 }
 
 .header__nav {
