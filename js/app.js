@@ -629,7 +629,7 @@ window.selectPayMethod = function(method) {
 
 // ── Payment Server Config ────────────────────────────────────
 const PAYMENT_SERVER = 'http://localhost:4000';
-const RAZORPAY_KEY_ID = 'rzp_test_SX8U1HsCZTRftK';
+const RAZORPAY_KEY_ID = 'rzp_test_SXF85KUUEBsHkt';
 
 let upiTimerInterval = null;
 

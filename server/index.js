@@ -14,11 +14,11 @@ app.use(express.json());
 
 // ── Razorpay Instance (Test Keys) ────────────────────────────
 const razorpay = new Razorpay({
-  key_id: 'rzp_test_SX8U1HsCZTRftK',
-  key_secret: 'AnSqSTVdog6BHORqUVcoJ7gf'
+  key_id: 'rzp_test_SXF85KUUEBsHkt',
+  key_secret: 'O8CCwxNG7Sw2J6euyez5SeQu'
 });
 
-const KEY_SECRET = 'AnSqSTVdog6BHORqUVcoJ7gf';
+const KEY_SECRET = 'O8CCwxNG7Sw2J6euyez5SeQu';
 
 // ── Create Order ─────────────────────────────────────────────
 // POST /create-order  { amount: 35000 }  (amount in paise)
