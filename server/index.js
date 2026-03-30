@@ -22,7 +22,7 @@ const KEY_SECRET = 'O8CCwxNG7Sw2J6euyez5SeQu';
 
 // ── Create Order ─────────────────────────────────────────────
 // POST /create-order  { amount: 35000 }  (amount in paise)
-app.post('/create-order', async (req, res) => {
+app.post('/api/create-order', async (req, res) => {
   try {
     const { amount, receipt, notes } = req.body;
 
@@ -54,7 +54,7 @@ app.post('/create-order', async (req, res) => {
 
 // ── Verify Payment Signature ─────────────────────────────────
 // POST /verify-payment  { razorpay_order_id, razorpay_payment_id, razorpay_signature }
-app.post('/verify-payment', (req, res) => {
+app.post('/api/verify-payment', (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 

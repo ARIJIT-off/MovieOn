@@ -628,7 +628,9 @@ window.selectPayMethod = function(method) {
 };
 
 // ── Payment Server Config ────────────────────────────────────
-const PAYMENT_SERVER = 'http://localhost:4000';
+// Auto-detect: use local Express server in dev, Vercel API routes in production
+const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const PAYMENT_SERVER = IS_LOCAL ? 'http://localhost:4000' : '';
 const RAZORPAY_KEY_ID = 'rzp_test_SXF85KUUEBsHkt';
 
 let upiTimerInterval = null;
@@ -739,7 +741,7 @@ async function processRazorpayPayment() {
 
   try {
     const movie = MOVIES.find(m => m.id === state.selectedMovie);
-    const orderResp = await fetch(`${PAYMENT_SERVER}/create-order`, {
+    const orderResp = await fetch(`${PAYMENT_SERVER}/api/create-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -777,7 +779,7 @@ async function processRazorpayPayment() {
       },
       handler: async function(response) {
         try {
-          const verifyResp = await fetch(`${PAYMENT_SERVER}/verify-payment`, {
+          const verifyResp = await fetch(`${PAYMENT_SERVER}/api/verify-payment`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
