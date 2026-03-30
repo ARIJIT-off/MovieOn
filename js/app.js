@@ -572,32 +572,58 @@ function renderCheckout(container) {
     <div id="upi-overlay" style="display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.95); backdrop-filter:blur(16px); justify-content:center; align-items:center;">
       <div style="text-align:center; max-width:420px; width:90%;">
         
-        <div style="margin-bottom:24px;">
-          <div style="font-size:12px; letter-spacing:3px; color:#d4a574; margin-bottom:8px; font-weight:600;">SCAN & PAY</div>
-          <h2 style="font-family:var(--font-display); font-size:28px; color:#fff; margin-bottom:4px;">${formatCurrency(total)}</h2>
-          <p style="color:var(--text-secondary); font-size:13px;">Scan the QR code below with any UPI app</p>
-        </div>
-
-        <div style="background:#ffffff; border-radius:16px; padding:24px; display:inline-block; margin-bottom:20px; position:relative;">
-          <div id="upi-qr-code" style="margin:0 auto;"></div>
-          <div style="margin-top:12px; font-size:12px; color:#333; font-weight:600;">UPI ID: ap2446961@okicici</div>
-          <div style="font-size:11px; color:#666; margin-top:2px;">Arijit Pal</div>
-        </div>
-
-        <div style="margin-bottom:20px;">
-          <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
-            <div id="scan-spinner" style="width:20px; height:20px; border:3px solid rgba(255,255,255,0.15); border-top-color:#10b981; border-radius:50%; animation: upi-spin 0.8s linear infinite;"></div>
-            <span id="scan-status-text" style="color:#10b981; font-weight:600; font-size:14px;">Waiting for payment…</span>
+        <!-- View 1: Scan QR -->
+        <div id="upi-view-scan">
+          <div style="margin-bottom:24px;">
+            <div style="font-size:12px; letter-spacing:3px; color:#d4a574; margin-bottom:8px; font-weight:600;">SCAN & PAY</div>
+            <h2 style="font-family:var(--font-display); font-size:28px; color:#fff; margin-bottom:4px;">${formatCurrency(total)}</h2>
+            <p style="color:var(--text-secondary); font-size:13px;">Scan the QR code below with any UPI app</p>
           </div>
-          <div style="margin-top:12px;">
-            <div style="background:rgba(255,255,255,0.08); border-radius:100px; height:6px; width:260px; margin:0 auto; overflow:hidden;">
-              <div id="scan-progress-bar" style="height:100%; width:100%; background:linear-gradient(90deg, #10b981, #34d399); border-radius:100px; transition:width 1s linear;"></div>
+
+          <div style="background:#ffffff; border-radius:16px; padding:24px; display:inline-block; margin-bottom:24px; position:relative;">
+            <div id="upi-qr-code" style="margin:0 auto;"></div>
+            <div style="margin-top:12px; font-size:12px; color:#333; font-weight:600;">UPI ID: ap2446961@okicici</div>
+            <div style="font-size:11px; color:#666; margin-top:2px;">Arijit Pal</div>
+          </div>
+
+          <div style="margin-bottom:24px;">
+             <button class="btn btn--primary" style="width:100%; padding:14px; border-radius:var(--radius-sm); border:none; background:var(--accent-gold); color:#0a0a0f; font-weight:700; cursor:pointer;" onclick="goToUpiUpload()">
+               I have paid
+             </button>
+          </div>
+        </div>
+
+        <!-- View 2: Upload Details -->
+        <div id="upi-view-upload" style="display:none;">
+          <div style="margin-bottom:32px;">
+            <div style="font-size:12px; letter-spacing:3px; color:#d4a574; margin-bottom:8px; font-weight:600;">VERIFICATION</div>
+            <h2 style="font-family:var(--font-display); font-size:24px; color:#fff; margin-bottom:12px;">Share Transaction Details</h2>
+            <p style="color:var(--text-secondary); font-size:14px;">Please upload a screenshot or receipt of your payment for instant confirmation.</p>
+          </div>
+
+          <div style="background:rgba(255,255,255,0.03); border:2px dashed rgba(255,255,255,0.1); border-radius:12px; padding:40px 20px; margin-bottom:24px; position:relative;">
+            <input type="file" id="upi-file-input" style="position:absolute; inset:0; opacity:0; cursor:pointer;" onchange="handleUpiFileUpload(this)">
+            <div style="font-size:40px; margin-bottom:12px;">📄</div>
+            <div style="color:var(--text-primary); font-weight:600;">Click or drop file here</div>
+            <div style="color:var(--text-muted); font-size:12px; margin-top:4px;">Supports PNG, JPG or PDF</div>
+          </div>
+        </div>
+
+        <!-- View 3: Processing -->
+        <div id="upi-view-processing" style="display:none;">
+          <div style="margin-bottom:24px;">
+            <div id="upi-process-spinner" style="width:60px; height:60px; border:4px solid rgba(255,255,255,0.1); border-top-color:var(--accent-gold); border-radius:50%; animation: upi-spin 1s linear infinite; margin: 0 auto 24px;"></div>
+            <h2 id="upi-process-text" style="font-family:var(--font-display); font-size:24px; color:#fff; transition: all 0.3s;">Scanning details...</h2>
+            
+            <div style="margin-top:24px;">
+              <div style="background:rgba(255,255,255,0.08); border-radius:100px; height:6px; width:260px; margin:0 auto; overflow:hidden;">
+                <div id="upi-process-progress" style="height:100%; width:0%; background:linear-gradient(90deg, #d4a574, #f4d0a4); border-radius:100px; transition: width 0.5s ease;"></div>
+              </div>
             </div>
-            <div id="scan-timer" style="color:var(--text-secondary); font-size:22px; font-weight:700; margin-top:10px; font-family:var(--font-display);">15</div>
           </div>
         </div>
 
-        <button onclick="cancelUpiPayment()" style="padding:10px 28px; border-radius:var(--radius-sm); border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); color:var(--text-secondary); cursor:pointer; font-size:13px; transition:all 0.2s;">Cancel</button>
+        <button id="upi-cancel-btn" onclick="cancelUpiPayment()" style="padding:10px 28px; border-radius:var(--radius-sm); border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.06); color:var(--text-secondary); cursor:pointer; font-size:13px; transition:all 0.2s;">Cancel</button>
       </div>
     </div>
 
@@ -653,9 +679,14 @@ window.processPayment = async function() {
 function processUpiPayment() {
   const total = calculateSeatTotal(state.selectedAudi, state.selectedSeats) + calculateFoodTotal(state.foodItems) + 30;
 
-  // Show overlay
+  // Show overlay and reset views
   const overlay = document.getElementById('upi-overlay');
   overlay.style.display = 'flex';
+  
+  document.getElementById('upi-view-scan').style.display = 'block';
+  document.getElementById('upi-view-upload').style.display = 'none';
+  document.getElementById('upi-view-processing').style.display = 'none';
+  document.getElementById('upi-cancel-btn').style.display = 'inline-block';
 
   // Generate UPI QR
   const upiUrl = `upi://pay?pa=ap2446961@okicici&pn=Arijit%20Pal&am=${total.toFixed(2)}&cu=INR&tn=MOViEON%20Ticket`;
@@ -671,59 +702,59 @@ function processUpiPayment() {
       correctLevel: QRCode.CorrectLevel.H
     });
   }
+}
 
-  // 15-second countdown
-  let remaining = 15;
-  const timerEl = document.getElementById('scan-timer');
-  const progressBar = document.getElementById('scan-progress-bar');
-  const statusText = document.getElementById('scan-status-text');
-  const spinner = document.getElementById('scan-spinner');
+window.goToUpiUpload = function() {
+  document.getElementById('upi-view-scan').style.display = 'none';
+  document.getElementById('upi-view-upload').style.display = 'block';
+};
 
-  // Reset state
-  timerEl.textContent = remaining;
-  timerEl.style.color = 'var(--text-secondary)';
-  progressBar.style.width = '100%';
-  statusText.textContent = 'Waiting for payment…';
-  statusText.style.color = '#10b981';
-  spinner.style.display = 'block';
-  spinner.style.borderTopColor = '#10b981';
+window.handleUpiFileUpload = function(input) {
+  if (input.files && input.files[0]) {
+    startUpiProcessingSequence();
+  }
+};
 
-  upiTimerInterval = setInterval(() => {
-    remaining--;
-    timerEl.textContent = remaining;
-    progressBar.style.width = `${(remaining / 15) * 100}%`;
+function startUpiProcessingSequence() {
+  const uploadView = document.getElementById('upi-view-upload');
+  const processView = document.getElementById('upi-view-processing');
+  const cancelBtn = document.getElementById('upi-cancel-btn');
+  const statusText = document.getElementById('upi-process-text');
+  const progress = document.getElementById('upi-process-progress');
 
-    if (remaining <= 5) {
-      statusText.textContent = 'Confirming payment…';
-      spinner.style.borderTopColor = '#fbbf24';
-    }
+  uploadView.style.display = 'none';
+  processView.style.display = 'block';
+  cancelBtn.style.display = 'none'; // Lock navigation during final processing
 
-    if (remaining <= 0) {
-      clearInterval(upiTimerInterval);
-      upiTimerInterval = null;
+  // Phase 1: Scanning (0-3s)
+  statusText.textContent = 'Scanning details...';
+  progress.style.width = '33%';
 
-      statusText.textContent = '✅ Payment received!';
-      spinner.style.display = 'none';
-      timerEl.textContent = '✓';
-      timerEl.style.color = '#10b981';
-      progressBar.style.width = '0%';
+  setTimeout(() => {
+    // Phase 2: Fetching (3-6s)
+    statusText.textContent = 'Fetching data...';
+    progress.style.width = '66%';
+  }, 3000);
 
-      createBooking(state);
-      showToast('UPI Payment Successful! Generating Ticket...', 'success');
+  setTimeout(() => {
+    // Phase 3: Confirming (6-10s)
+    statusText.textContent = 'Confirming the ticket...';
+    progress.style.width = '100%';
+  }, 6000);
 
-      setTimeout(() => {
-        overlay.style.display = 'none';
-        navigate('confirmation');
-      }, 1500);
-    }
-  }, 1000);
+  setTimeout(() => {
+    // Phase 4: Completion (10s)
+    createBooking(state);
+    showToast('Payment confirmed! Your ticket is ready.', 'success');
+    
+    setTimeout(() => {
+      document.getElementById('upi-overlay').style.display = 'none';
+      navigate('confirmation');
+    }, 800);
+  }, 10000);
 }
 
 window.cancelUpiPayment = function() {
-  if (upiTimerInterval) {
-    clearInterval(upiTimerInterval);
-    upiTimerInterval = null;
-  }
   const overlay = document.getElementById('upi-overlay');
   if (overlay) overlay.style.display = 'none';
   showToast('Payment cancelled', 'error');
