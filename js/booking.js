@@ -349,7 +349,7 @@ function generateQRCode(containerId, data) {
       height: 160,
       colorDark: "#0a0a0f",
       colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
+      correctLevel: QRCode.CorrectLevel.M
     });
   } else {
     // Fallback: create a styled placeholder

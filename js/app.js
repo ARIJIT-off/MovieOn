@@ -177,10 +177,11 @@ function navigate(viewName, params = {}) {
       renderCheckout(container);
       break;
     case 'confirmation': {
-      const currentBooking = BOOKINGS[BOOKINGS.length - 1]; // Just created
+      const currentBooking = BOOKINGS[BOOKINGS.length - 1]; 
       container.innerHTML = renderTicketConfirmation(currentBooking);
       
-      const qrData = `MOViEON DIGITAL TICKET\nID: ${currentBooking.id}\nMovie: ${currentBooking.movie.title}\nDate: ${currentBooking.date}\nTime: ${currentBooking.showtime}\nSeats: ${currentBooking.seats.join(', ')}\n\nScan to Verify: ${window.location.origin}${window.location.pathname}?ticketId=${currentBooking.id}`;
+      // Shortened for reliability and instant scanning
+      const qrData = `${window.location.origin}${window.location.pathname}?ticketId=${currentBooking.id}`;
       
       generateQRCode('ticket-qr', qrData);
       triggerConfetti();
