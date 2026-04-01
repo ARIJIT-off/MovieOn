@@ -26,7 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fallback to today
   state.selectedDate = getNext7Days()[0].date;
   
-  navigate('home');
+  // Check for ticket verification in URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const ticketId = urlParams.get('ticketId');
+  if (ticketId) {
+    navigate('verify', { ticketId });
+  } else {
+    navigate('home');
+  }
 });
 
 function initTheatreInfo() {
@@ -130,7 +137,7 @@ window.stepNext = function() {
   }
 };
 
-function navigate(viewName) {
+function navigate(viewName, params = {}) {
   state.currentView = viewName;
   const container = document.getElementById('app-content');
   container.innerHTML = ''; // Clear container
@@ -169,11 +176,18 @@ function navigate(viewName) {
     case 'checkout':
       renderCheckout(container);
       break;
-    case 'confirmation':
+    case 'confirmation': {
       const currentBooking = BOOKINGS[BOOKINGS.length - 1]; // Just created
       container.innerHTML = renderTicketConfirmation(currentBooking);
-      generateQRCode('ticket-qr', { id: currentBooking.id, type: 'MTICKET' });
+      
+      const qrData = `MOViEON DIGITAL TICKET\nID: ${currentBooking.id}\nMovie: ${currentBooking.movie.title}\nDate: ${currentBooking.date}\nTime: ${currentBooking.showtime}\nSeats: ${currentBooking.seats.join(', ')}\n\nScan to Verify: ${window.location.origin}${window.location.pathname}?ticketId=${currentBooking.id}`;
+      
+      generateQRCode('ticket-qr', qrData);
       triggerConfetti();
+      break;
+    }
+    case 'verify':
+      renderTicketVerification(container, params.ticketId);
       break;
   }
   animateIn(container);

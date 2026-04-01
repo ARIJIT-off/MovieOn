@@ -245,6 +245,97 @@ function renderTicketConfirmation(booking) {
   `;
 }
 
+function renderTicketVerification(container, ticketId) {
+  if (!ticketId) { navigate('home'); return; }
+  const booking = BOOKINGS.find(b => b.id.toUpperCase() === ticketId.toUpperCase());
+  
+  if (!booking) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:100px 20px; min-height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <div style="font-size:80px; margin-bottom:24px; animation: invalid-shake 0.5s ease-in-out;">🎫</div>
+        <div style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; color:#ef4444; padding:6px 16px; border-radius:100px; font-weight:700; font-size:12px; margin-bottom:20px; letter-spacing:1px;">INVALID TICKET</div>
+        <h2 style="font-family:var(--font-display); font-size:32px; color:#fff; margin-bottom:12px;">Verification Failed</h2>
+        <p style="color:var(--text-secondary); max-width:360px; line-height:1.6; margin-bottom:40px;">The ticket ID <strong style="color:var(--accent-gold); font-family:monospace;">${ticketId}</strong> was not found in our live database. It may be fraudulent or expired.</p>
+        <button class="btn btn--primary" style="padding:14px 40px; border-radius:100px;" onclick="navigate('home')">Back to Home</button>
+      </div>
+      <style>
+        @keyframes invalid-shake {
+           0%, 100% { transform: translateX(0); }
+           25% { transform: translateX(-10px); }
+           75% { transform: translateX(10px); }
+        }
+      </style>
+    `;
+    return;
+  }
+
+  const movie = booking.movie;
+  container.innerHTML = `
+    <div style="max-width:500px; margin:0 auto; padding:60px 20px; min-height:80vh; display:flex; flex-direction:column; align-items:center;">
+       <div style="font-size:60px; margin-bottom:16px;">🎟️</div>
+       <div style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#10b981; display:inline-flex; align-items:center; gap:8px; padding:10px 24px; border-radius:100px; font-weight:800; font-size:14px; margin-bottom:32px; letter-spacing:1.5px; box-shadow:0 0 20px rgba(16,185,129,0.2);">
+         <span style="font-size:18px;">✓</span> TICKET VERIFIED
+       </div>
+       
+       <div class="ticket" style="text-align:left; max-width:100%; border:1px solid rgba(255,255,255,0.1); box-shadow:0 20px 40px rgba(0,0,0,0.4);">
+          <div class="ticket__header" style="background: ${movie.gradient || '#d4a574'}; padding:24px;">
+            <div class="ticket__movie-info">
+              <div style="font-size:10px; opacity:0.8; letter-spacing:2px; font-weight:800; margin-bottom:4px;">OFFICIAL MERCHANT</div>
+              <h3 style="font-size:24px;">${movie.title}</h3>
+              <p style="font-size:13px; opacity:0.9;">${movie.certificate} • ${movie.duration} • ${movie.language}</p>
+            </div>
+          </div>
+          
+          <div class="ticket__body" style="padding:28px;">
+            <div style="display:grid; grid-template-columns:1fr; gap:20px; margin-bottom:24px;">
+               <div style="background:rgba(255,255,255,0.03); border-radius:12px; padding:16px;">
+                  <div style="font-size:10px; color:#888; font-weight:800; letter-spacing:1px; margin-bottom:4px;">STATUS</div>
+                  <div style="color:#10b981; font-weight:900; font-size:18px;">CONFIRMED AT ${new Date(booking.bookedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+               </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:20px;">
+               <div>
+                  <div style="font-size:10px; color:#888; font-weight:800; letter-spacing:1px; margin-bottom:4px;">DATE & TIME</div>
+                  <div style="font-weight:700; font-size:15px; color:#fff;">${booking.date}</div>
+                  <div style="font-weight:600; font-size:14px; color:var(--accent-gold);">${booking.showtime}</div>
+               </div>
+               <div>
+                  <div style="font-size:10px; color:#888; font-weight:800; letter-spacing:1px; margin-bottom:4px;">SCREEN / AUDI</div>
+                  <div style="font-weight:700; font-size:15px; color:#fff;">${booking.audi.name}</div>
+                  <div style="font-weight:600; font-size:13px; color:#888;">${booking.audi.type}</div>
+               </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
+               <div>
+                  <div style="font-size:10px; color:#888; font-weight:800; letter-spacing:1px; margin-bottom:4px;">TICKET ID</div>
+                  <div style="font-weight:700; font-family:monospace; font-size:14px; color:#fff;">${booking.id}</div>
+               </div>
+               <div>
+                  <div style="font-size:10px; color:#888; font-weight:800; letter-spacing:1px; margin-bottom:4px;">SEATS</div>
+                  <div style="font-weight:900; font-size:18px; color:var(--accent-emerald);">${booking.seats.join(', ')}</div>
+               </div>
+            </div>
+            
+            <div style="margin-top:24px; padding-top:20px; border-top:1px dashed rgba(255,255,255,0.15); display:flex; justify-content:space-between; align-items:flex-end;">
+               <div>
+                 <div style="font-size:9px; color:#666; font-weight:800; margin-bottom:2px;">CUSTOMER</div>
+                 <div style="font-size:14px; color:#fff; font-weight:700;">${booking.userName}</div>
+               </div>
+               <div style="text-align:right;">
+                 <div style="font-size:9px; color:#666; font-weight:800; margin-bottom:2px;">TOTAL PAID</div>
+                 <div style="font-size:16px; color:#fff; font-weight:800;">${formatCurrency(booking.grandTotal)}</div>
+               </div>
+            </div>
+          </div>
+       </div>
+       
+       <button class="btn btn--ghost" style="margin-top:48px; border:1px solid var(--border-subtle); padding:12px 32px; border-radius:100px; color:var(--text-secondary);" onclick="navigate('home')">Return to Website</button>
+    </div>
+  `;
+}
+
 function generateQRCode(containerId, data) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -253,12 +344,12 @@ function generateQRCode(containerId, data) {
   
   if (typeof QRCode !== 'undefined') {
     new QRCode(container, {
-      text: JSON.stringify(data),
+      text: typeof data === 'string' ? data : JSON.stringify(data),
       width: 160,
       height: 160,
       colorDark: "#0a0a0f",
       colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.M
+      correctLevel: QRCode.CorrectLevel.H
     });
   } else {
     // Fallback: create a styled placeholder
