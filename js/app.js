@@ -212,7 +212,7 @@ function renderHome(container) {
         <div class="movie-card__poster">
           <img class="movie-card__poster-img" src="${m.poster}" alt="${m.title}" onerror="this.src=''; this.style.background='${m.gradient}'">
           <div class="movie-card__poster-gradient"></div>
-          <div class="movie-card__rating">⭐ ${m.rating}</div>
+          <div class="movie-card__rating">${m.rating}</div>
         </div>
         <div class="movie-card__info">
           <h2 class="movie-card__title">${m.title}</h2>
@@ -247,7 +247,7 @@ function renderMovieDetail(container) {
         <div class="movie-detail__info">
           <h1 class="movie-detail__title">${movie.title}</h1>
           <div class="movie-detail__badges">
-             <span class="detail-badge detail-badge--rating">⭐ ${movie.rating}/10</span>
+             <span class="detail-badge detail-badge--rating">${movie.rating}/10</span>
              ${movie.genre.map(g => `<span class="detail-badge">${g}</span>`).join('')}
              <span class="detail-badge">${movie.duration}</span>
              <span class="detail-badge">${movie.certificate}</span>
@@ -399,7 +399,7 @@ function renderSeatSelection(container) {
       </div>
       <div class="form-group" style="flex:0; padding-bottom: 4px;">
         <button style="padding: 10px 16px; background: rgba(139,92,246,0.15); border: 1px solid var(--accent-violet); color: var(--accent-violet); border-radius: 6px; cursor: pointer; white-space:nowrap; font-weight: 600;" onclick="autoSelectSeats()">
-          ✨ AI Auto-Select
+          Auto-Select Best Seats
         </button>
       </div>
     </div>
@@ -490,7 +490,7 @@ function renderFoodCategory(title, items) {
       <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:16px;">
         ${items.map(item => `
           <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius: var(--radius-md); padding:16px; dilsplay:flex; flex-direction:column;">
-            <div style="font-size:32px; margin-bottom:12px;">${item.emoji}</div>
+            <div style="width:44px; height:44px; border-radius:8px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.2); display:flex; align-items:center; justify-content:center; margin-bottom:12px; font-size:13px; font-weight:700; color:#D4AF37; letter-spacing:0.5px;">${item.icon === 'popcorn' ? 'POP' : item.icon === 'nachos' ? 'NCH' : item.icon === 'drink' ? 'DRK' : item.icon === 'water' ? 'H2O' : item.icon === 'coffee' ? 'CFE' : item.icon === 'dessert' ? 'DST' : 'FD'}</div>
             <h4 style="font-size:15px; margin-bottom:4px;">${item.name}</h4>
             <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px; flex:1;">${item.desc}</p>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto;">

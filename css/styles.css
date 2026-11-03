@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   MOViEON — Premium Dark Cinema UI Design System
+   MOViEON — Premium Light Cinema UI Design System
    Based on Official Design Specifications
    ═══════════════════════════════════════════════════════════════ */
 
@@ -7,49 +7,49 @@
 
 /* ── CSS Variables ─────────────────────────────────────────── */
 :root {
-  /* ── Brand Colors (Design Spec Aligned) ── */
-  --color-gold: #D4AF37;
-  --color-gold-light: #FFD700;
-  --color-gold-dark: #C9A961;
-  --color-gold-dim: #b8952e;
+  /* ── Brand Colors ── */
+  --color-gold: #C9A84C;
+  --color-gold-light: #E0BA5C;
+  --color-gold-dark: #A8872E;
+  --color-gold-dim: #9A7B28;
 
-  /* ── Background Scale ── */
-  --bg-root: #0F0F0F;
-  --bg-primary: #0F0F0F;
-  --bg-dark: #1A1A1A;
-  --bg-card: #1A1A1A;
-  --bg-card-hover: #252525;
-  --bg-glass: rgba(26, 26, 26, 0.85);
-  --bg-input: #1A1A1A;
+  /* ── Background Scale (Light) ── */
+  --bg-root: #FFFFFF;
+  --bg-primary: #FFFFFF;
+  --bg-dark: #F4F4F6;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F8F8FC;
+  --bg-glass: rgba(255, 255, 255, 0.92);
+  --bg-input: #F7F7F9;
 
   /* ── Borders ── */
-  --border-subtle: #333333;
-  --border-light: #444444;
-  --border-accent: rgba(212, 175, 55, 0.4);
+  --border-subtle: #E8E8EE;
+  --border-light: #D0D0DA;
+  --border-accent: rgba(201, 168, 76, 0.5);
 
   /* ── Text ── */
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0A0A0;
-  --text-muted: #696969;
+  --text-primary: #111118;
+  --text-secondary: #555560;
+  --text-muted: #9090A0;
 
   /* ── Accent Aliases (keep compat with JS) ── */
-  --accent-gold: #D4AF37;
-  --accent-gold-bright: #FFD700;
-  --accent-violet: #8b5cf6;
-  --accent-emerald: #27AE60;
-  --accent-red: #E74C3C;
-  --accent-blue: #3498DB;
-  --accent-teal: #1ABC9C;
+  --accent-gold: #C9A84C;
+  --accent-gold-bright: #D4AF37;
+  --accent-violet: #7C3AED;
+  --accent-emerald: #16A34A;
+  --accent-red: #DC2626;
+  --accent-blue: #2563EB;
+  --accent-teal: #0D9488;
 
   /* ── Gradients ── */
-  --gradient-gold: linear-gradient(135deg, #D4AF37 0%, #FFD700 100%);
-  --gradient-dark: linear-gradient(180deg, rgba(15,15,15,0) 0%, rgba(15,15,15,1) 100%);
+  --gradient-gold: linear-gradient(135deg, #C9A84C 0%, #E0BA5C 100%);
+  --gradient-dark: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(17,17,24,0.85) 100%);
 
-  /* ── Shadows (Elevation System) ── */
-  --shadow-sm:   0 2px 4px rgba(0,0,0,0.3);
-  --shadow-md:   0 4px 12px rgba(0,0,0,0.5);
-  --shadow-lg:   0 12px 24px rgba(0,0,0,0.6);
-  --shadow-glow: 0 0 8px rgba(212,175,55,0.3);
+  /* ── Shadows (Elevation System — Light) ── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg:   0 12px 32px rgba(0,0,0,0.12);
+  --shadow-glow: 0 0 12px rgba(201,168,76,0.25);
 
   /* ── Border Radius ── */
   --radius-sm: 4px;
@@ -107,19 +107,15 @@ img { max-width: 100%; display: block; }
 
 /* ── Subtle Background ──────────────────────────────────────── */
 #bg-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.4;
+  display: none;
 }
 
 .bg-overlay {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: radial-gradient(ellipse at 20% 10%, rgba(212,175,55,0.04) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 90%, rgba(212,175,55,0.03) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 0% 0%, rgba(201,168,76,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 100% 100%, rgba(201,168,76,0.04) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -161,11 +157,11 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  background: rgba(15, 15, 15, 0.95);
+  background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(20px) saturate(1.2);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
   border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
 }
 
 .header__brand {
@@ -188,7 +184,7 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   font-size: 16px;
   font-weight: 900;
-  color: #0F0F0F;
+  color: #FFFFFF;
   font-family: var(--font-display);
   box-shadow: var(--shadow-glow);
   letter-spacing: -0.5px;
@@ -204,11 +200,10 @@ img { max-width: 100%; display: block; }
 }
 
 .header__title span {
-  color: #FFFFFF;
+  color: var(--text-primary);
   font-weight: 500;
 }
 
-}
 
 .header__nav {
   display: flex;
@@ -249,13 +244,13 @@ img { max-width: 100%; display: block; }
   right: 0;
   width: var(--sidebar-width);
   height: calc(100vh - var(--header-height));
-  background: #111111;
+  background: #FAFAFA;
   border-left: 1px solid var(--border-subtle);
   overflow-y: auto;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  box-shadow: -4px 0 16px rgba(0,0,0,0.4);
+  box-shadow: -2px 0 12px rgba(0,0,0,0.06);
 }
 
 
@@ -461,7 +456,7 @@ img { max-width: 100%; display: block; }
   font-weight: 700;
   margin-bottom: 6px;
   line-height: 1.3;
-  color: #FFFFFF;
+  color: var(--text-primary);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -534,7 +529,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 14px;
   line-height: 1.15;
   letter-spacing: -0.5px;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .movie-detail__badges {
@@ -562,7 +557,7 @@ img { max-width: 100%; display: block; }
 
 .movie-detail__synopsis {
   font-size: 16px;
-  color: #FFFFFF;
+  color: var(--text-primary);
   line-height: 1.7;
   margin-bottom: 20px;
   max-width: 620px;
@@ -712,7 +707,7 @@ img { max-width: 100%; display: block; }
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 4px;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .audi-card__type {
@@ -1369,7 +1364,7 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-display);
   font-size: 18px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .order-summary__section {
@@ -1410,7 +1405,7 @@ img { max-width: 100%; display: block; }
   font-size: 15px;
   font-weight: 700;
   margin-bottom: 4px;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .order-summary__movie p {
@@ -1478,7 +1473,7 @@ img { max-width: 100%; display: block; }
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 28px;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .input-row {
@@ -1579,7 +1574,7 @@ img { max-width: 100%; display: block; }
 .payment-option__label {
   font-size: 15px;
   font-weight: 600;
-  color: #FFFFFF;
+  color: var(--text-primary);
 }
 
 .payment-option__desc {

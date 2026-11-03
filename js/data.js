@@ -53,103 +53,109 @@ const SCREENS = [
   }
 ];
 
-// ── Movies Currently Running at PVR Downtown Mall, Kolkata ───
+// ── Movies Currently Running at PVR INOX, India — November 2026 ──
 const MOVIES = [
   {
     id: 1,
-    title: "Dhurandhar: The Revenge",
-    genre: ["Action", "Thriller", "Spy"],
-    duration: "2h 45m",
+    title: "Ramayana: Part One",
+    genre: ["Epic", "Mythology", "Adventure"],
+    duration: "2h 50m",
     language: "Hindi",
-    rating: 8.2,
+    rating: 9.1,
     certificate: "UA",
-    director: "Aditya Dhar",
-    cast: ["Ranveer Singh", "Sanjay Dutt", "R. Madhavan", "Arjun Rampal"],
-    synopsis: "RAW agent Jaskirat Singh Rangi returns for his most dangerous mission yet, infiltrating deep into enemy territory to dismantle a global terror network. A high-octane sequel packed with breathtaking action and geopolitical intrigue.",
-    poster: "https://image.tmdb.org/t/p/w500/snBOuXDdhmTvlzMUvP9Em3Pp1u1.jpg",
-    gradient: "linear-gradient(135deg, #b91c1c 0%, #7f1d1d 50%, #1c1917 100%)",
-    accent: "#ef4444",
-    trailerYouTubeId: "NHk7scrb_9I"
+    director: "Nitesh Tiwari",
+    cast: ["Ranbir Kapoor", "Sai Pallavi", "Yash", "Sunny Deol"],
+    synopsis: "The timeless epic of Lord Rama comes to life in an unprecedented visual spectacle. When Prince Rama is exiled from Ayodhya for fourteen years, he embarks on a journey that will define the eternal struggle between good and evil. Featuring breathtaking visual effects by DNEG and an iconic score by Hans Zimmer and A.R. Rahman.",
+    poster: "https://image.tmdb.org/t/p/w500/iDTUnwcbQRVPSMZY6aSGQAC4nAW.jpg",
+    backdrop: "https://image.tmdb.org/t/p/w1280/iDTUnwcbQRVPSMZY6aSGQAC4nAW.jpg",
+    gradient: "linear-gradient(135deg, #7c2d12 0%, #451a03 50%, #1c0a00 100%)",
+    accent: "#f97316",
+    trailerYouTubeId: "lNaSdnz2I8g"
   },
   {
     id: 2,
-    title: "Project Hail Mary",
-    genre: ["Sci-Fi", "Adventure", "Drama"],
-    duration: "2h 20m",
+    title: "Clayface",
+    genre: ["Thriller", "Horror", "Superhero"],
+    duration: "2h 08m",
     language: "English",
-    rating: 8.9,
-    certificate: "UA",
-    director: "Phil Lord & Christopher Miller",
-    cast: ["Ryan Gosling", "Sandra Hüller", "Lionel Boyce"],
-    synopsis: "A middle-school teacher wakes up on a spacecraft millions of miles from Earth with no memory of how he got there. As he pieces together his past, he discovers he's humanity's last hope against an extinction-level threat — and he's not alone on the ship.",
-    poster: "https://image.tmdb.org/t/p/w500/yihdXomYb5kTeSivtFndMy5iDmf.jpg",
-    gradient: "linear-gradient(135deg, #1e3a5f 0%, #0c1929 50%, #000000 100%)",
-    accent: "#0ea5e9",
-    trailerYouTubeId: "P0XN3-n-2Lo"
+    rating: 7.8,
+    certificate: "A",
+    director: "James Watkins",
+    cast: ["Tom Rhys Harries", "Naomi Scott", "Rakhee Thakrar", "Jack Lowden"],
+    synopsis: "Matt Hagen, a disfigured actor, is transformed by an experimental compound into the shapeshifting monster known as Clayface. As he loses his grip on identity and sanity, he becomes a terrifying force of vengeance against those who wronged him. DC Studios' darkest and most visceral film to date.",
+    poster: "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+    backdrop: "https://image.tmdb.org/t/p/w1280/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+    gradient: "linear-gradient(135deg, #1e1b4b 0%, #0f0a1e 50%, #000000 100%)",
+    accent: "#818cf8",
+    trailerYouTubeId: "EwuYcTf0QBM"
   },
   {
     id: 3,
-    title: "The Bride!",
-    genre: ["Fantasy", "Horror", "Romance"],
-    duration: "2h 10m",
-    language: "English",
-    rating: 7.4,
-    certificate: "A",
-    director: "Maggie Gyllenhaal",
-    cast: ["Jessie Buckley", "Christian Bale", "Penélope Cruz", "Annette Bening"],
-    synopsis: "A gothic reimagining of the Bride of Frankenstein. She is created, she is rejected, she burns it all down. A darkly beautiful tale of autonomy, rage, and self-creation in 19th-century Europe.",
-    poster: "https://image.tmdb.org/t/p/w500/lV8YHwGkYZsm6EfIqnhaSz2avKt.jpg",
-    gradient: "linear-gradient(135deg, #7c3aed 0%, #4c1d95 50%, #0f0a1e 100%)",
-    accent: "#8b5cf6",
-    trailerYouTubeId: "f4l3lJv5Dms"
+    title: "Drishyam: The Conclusion",
+    genre: ["Thriller", "Crime", "Drama"],
+    duration: "2h 30m",
+    language: "Hindi",
+    rating: 8.6,
+    certificate: "UA",
+    director: "Abhishek Pathak",
+    cast: ["Ajay Devgn", "Tabu", "Jaideep Ahlawat", "Shriya Saran", "Prakash Raj"],
+    synopsis: "Vijay Salgaonkar's carefully constructed web of deception faces its ultimate test as a dogged Crime Branch officer armed with new forensic evidence closes in on the truth. The gripping conclusion to India's most beloved thriller franchise — where every lie has a price.",
+    poster: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
+    backdrop: "https://image.tmdb.org/t/p/w1280/ggFHVNu6YYI5L9pCfOacjizRGt.jpg",
+    gradient: "linear-gradient(135deg, #164e63 0%, #083344 50%, #030712 100%)",
+    accent: "#22d3ee",
+    trailerYouTubeId: "0Cj_gGMGPqM"
   },
   {
     id: 4,
-    title: "Hoppers",
-    genre: ["Animation", "Comedy", "Family"],
-    duration: "1h 45m",
-    language: "English",
-    rating: 7.6,
-    certificate: "U",
-    director: "Dan Scanlon",
-    cast: ["Jon Hamm", "Bobby Moynihan", "Parvesh Cheena"],
-    synopsis: "From the creators at Pixar comes a vibrant, quirky adventure about a group of misfit grasshoppers who must journey across a vast backyard to save their colony from an approaching storm. Heartwarming, hilarious, and visually stunning.",
-    poster: "https://image.tmdb.org/t/p/w500/xjtWQ2CL1mpmMNwuU5HeS4Iuwuu.jpg",
-    gradient: "linear-gradient(135deg, #065f46 0%, #064e3b 50%, #0a0f0d 100%)",
-    accent: "#10b981",
-    trailerYouTubeId: "PypDSyIRRSs"
+    title: "Prahaar: The Untold Story",
+    genre: ["Biographical", "Legal", "Drama"],
+    duration: "2h 20m",
+    language: "Hindi",
+    rating: 8.3,
+    certificate: "UA",
+    director: "Avinash Arun",
+    cast: ["Rajkummar Rao", "Wamiqa Gabbi", "Jaideep Ahlawat", "Ashish Vidyarthi"],
+    synopsis: "The extraordinary true story of Ujjwal Nikam — India's most formidable public prosecutor — who built iron-clad cases against perpetrators of the 1993 Bombay blasts and the 2008 Mumbai terror attacks. Armed with only evidence and truth, he fought battles that defined modern India's justice system.",
+    poster: "https://image.tmdb.org/t/p/w500/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+    backdrop: "https://image.tmdb.org/t/p/w1280/4HodYYKEIsGOdinkGi2Ucz6X9i0.jpg",
+    gradient: "linear-gradient(135deg, #78350f 0%, #451a03 50%, #1c0a00 100%)",
+    accent: "#f59e0b",
+    trailerYouTubeId: "YfmQRfNMU2s"
   },
   {
     id: 5,
-    title: "Subedaar",
-    genre: ["Action", "Drama"],
-    duration: "2h 15m",
+    title: "Udta Teer",
+    genre: ["Comedy", "Action", "Drama"],
+    duration: "2h 05m",
     language: "Hindi",
-    rating: 7.1,
+    rating: 7.4,
     certificate: "UA",
-    director: "Suresh Triveni",
-    cast: ["Anil Kapoor", "Radhikka Madan", "Mona Singh", "Saurabh Shukla"],
-    synopsis: "Retired Subedaar Arjun Maurya's quiet civilian life is shattered when his daughter is threatened by a ruthless crime syndicate. Forced to dust off his combat instincts, he wages a one-man war against the corrupt nexus controlling his hometown.",
-    poster: "https://image.tmdb.org/t/p/w500/jXVkSIRHeFrMdkc8kStUE4LrJCb.jpg",
-    gradient: "linear-gradient(135deg, #92400e 0%, #78350f 50%, #1c1917 100%)",
-    accent: "#f59e0b",
-    trailerYouTubeId: "wY1V7rEAQ3o"
+    director: "Hardik Mehta",
+    cast: ["Vicky Kaushal", "Tripti Dimri", "Manoj Pahwa", "Kumud Mishra"],
+    synopsis: "A small-town archery champion accidentally stumbles into a high-stakes arms smuggling operation. What follows is a hilarious, action-packed journey as he tries to outrun both the criminals and the bumbling police force while somehow keeping his spot at the national championships.",
+    poster: "https://image.tmdb.org/t/p/w500/6FfCtAuVAW8XJjZ7eWeLibRLWTQ.jpg",
+    backdrop: "https://image.tmdb.org/t/p/w1280/6FfCtAuVAW8XJjZ7eWeLibRLWTQ.jpg",
+    gradient: "linear-gradient(135deg, #065f46 0%, #064e3b 50%, #0a0f0d 100%)",
+    accent: "#10b981",
+    trailerYouTubeId: "3vvBhzPcmFQ"
   },
   {
     id: 6,
-    title: "Pushpa 2: The Rule",
-    genre: ["Action", "Drama"],
-    duration: "2h 59m",
+    title: "Nakhrewaalii",
+    genre: ["Romance", "Comedy", "Drama"],
+    duration: "2h 10m",
     language: "Hindi",
-    rating: 7.8,
+    rating: 7.2,
     certificate: "UA",
-    director: "Sukumar",
-    cast: ["Allu Arjun", "Rashmika Mandanna", "Fahadh Faasil"],
-    synopsis: "Pushpa Raj continues his rise in the red sandalwood smuggling syndicate, facing off against ruthless antagonist SP Bhanwar Singh Shekhawat in an epic battle of power and survival.",
-    poster: "https://image.tmdb.org/t/p/w500/t5ePZYRibJ0EEK1FK3GhihVkDW5.jpg",
-    gradient: "linear-gradient(135deg, #dc2626 0%, #991b1b 50%, #0c0a09 100%)",
-    accent: "#dc2626",
-    trailerYouTubeId: "1kVK0MZlbI4"
+    director: "Shashanka Ghosh",
+    cast: ["Sara Ali Khan", "Aditya Roy Kapur", "Dimple Kapadia", "Pankaj Kapur"],
+    synopsis: "A fiercely independent fashion designer with impossibly high standards meets her match in a laid-back architect who refuses to be impressed. Their battle of wills, set against the glittering backdrop of modern Mumbai, turns into the most entertaining love story of the year.",
+    poster: "https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggkl.jpg",
+    backdrop: "https://image.tmdb.org/t/p/w1280/qNBAXBIQlnOThrVvA6mA2B5ggkl.jpg",
+    gradient: "linear-gradient(135deg, #831843 0%, #500724 50%, #1c0413 100%)",
+    accent: "#f472b6",
+    trailerYouTubeId: "v3PsvMOR4EM"
   }
 ];
 
@@ -157,30 +163,30 @@ const SHOWTIMES = ["10:00 AM", "1:15 PM", "4:30 PM", "7:45 PM", "10:30 PM"];
 
 const FB_MENU = {
   combos: [
-    { id: "c1", name: "Classic Combo", desc: "M Popcorn + Pepsi 500ml", price: 350, emoji: "🍿" },
-    { id: "c2", name: "Jumbo Combo", desc: "L Popcorn + 2 Pepsi 750ml", price: 520, emoji: "🎉" },
-    { id: "c3", name: "Nachos Combo", desc: "Nachos + Salsa + Pepsi", price: 380, emoji: "🌮" }
+    { id: "c1", name: "Classic Combo", desc: "M Popcorn + Pepsi 500ml", price: 350, icon: "popcorn" },
+    { id: "c2", name: "Jumbo Combo", desc: "L Popcorn + 2 Pepsi 750ml", price: 520, icon: "popcorn" },
+    { id: "c3", name: "Nachos Combo", desc: "Nachos + Salsa + Pepsi", price: 380, icon: "nachos" }
   ],
   popcorn: [
-    { id: "p1", name: "Salted — Small", desc: "Classic salted popcorn", price: 180, emoji: "🧂" },
-    { id: "p2", name: "Salted — Medium", desc: "Classic salted popcorn", price: 250, emoji: "🧂" },
-    { id: "p3", name: "Salted — Large", desc: "Classic salted popcorn", price: 310, emoji: "🧂" },
-    { id: "p4", name: "Caramel — Small", desc: "Sweet caramel popcorn", price: 180, emoji: "🍬" },
-    { id: "p5", name: "Caramel — Medium", desc: "Sweet caramel popcorn", price: 250, emoji: "🍬" },
-    { id: "p6", name: "Caramel — Large", desc: "Sweet caramel popcorn", price: 310, emoji: "🍬" }
+    { id: "p1", name: "Salted — Small", desc: "Classic salted popcorn", price: 180, icon: "popcorn" },
+    { id: "p2", name: "Salted — Medium", desc: "Classic salted popcorn", price: 250, icon: "popcorn" },
+    { id: "p3", name: "Salted — Large", desc: "Classic salted popcorn", price: 310, icon: "popcorn" },
+    { id: "p4", name: "Caramel — Small", desc: "Sweet caramel popcorn", price: 180, icon: "popcorn" },
+    { id: "p5", name: "Caramel — Medium", desc: "Sweet caramel popcorn", price: 250, icon: "popcorn" },
+    { id: "p6", name: "Caramel — Large", desc: "Sweet caramel popcorn", price: 310, icon: "popcorn" }
   ],
   beverages: [
-    { id: "b1", name: "Pepsi", desc: "500ml", price: 160, emoji: "🥤" },
-    { id: "b2", name: "7UP", desc: "500ml", price: 160, emoji: "🥤" },
-    { id: "b3", name: "Mountain Dew", desc: "500ml", price: 160, emoji: "🥤" },
-    { id: "b4", name: "Aquafina Water", desc: "1L", price: 60, emoji: "💧" },
-    { id: "b5", name: "Cold Coffee", desc: "Chilled brew", price: 180, emoji: "☕" }
+    { id: "b1", name: "Pepsi", desc: "500ml", price: 160, icon: "drink" },
+    { id: "b2", name: "7UP", desc: "500ml", price: 160, icon: "drink" },
+    { id: "b3", name: "Mountain Dew", desc: "500ml", price: 160, icon: "drink" },
+    { id: "b4", name: "Aquafina Water", desc: "1L", price: 60, icon: "water" },
+    { id: "b5", name: "Cold Coffee", desc: "Chilled brew", price: 180, icon: "coffee" }
   ],
   snacks: [
-    { id: "s1", name: "Nachos with Salsa", desc: "Crispy nachos + dip", price: 220, emoji: "🌶️" },
-    { id: "s2", name: "Hot Dog", desc: "Classic grilled", price: 240, emoji: "🌭" },
-    { id: "s3", name: "Paneer Tikka Wrap", desc: "Spicy paneer roll", price: 280, emoji: "🌯" },
-    { id: "s4", name: "Brownie with Ice Cream", desc: "Warm brownie + scoop", price: 200, emoji: "🍫" }
+    { id: "s1", name: "Nachos with Salsa", desc: "Crispy nachos + dip", price: 220, icon: "nachos" },
+    { id: "s2", name: "Hot Dog", desc: "Classic grilled", price: 240, icon: "food" },
+    { id: "s3", name: "Paneer Tikka Wrap", desc: "Spicy paneer roll", price: 280, icon: "food" },
+    { id: "s4", name: "Brownie with Ice Cream", desc: "Warm brownie + scoop", price: 200, icon: "dessert" }
   ]
 };
 
