@@ -351,18 +351,28 @@ app.post('/api/bookings/create', async (req, res) => {
       return res.status(409).json({ error: 'Some seats have just been booked. Please re-select.' });
     }
 
+    // Ensure unique bookingId fallback
+    let finalBookingId = bookingId;
+    if (!finalBookingId) {
+      finalBookingId = `MOV-${new Date().getFullYear()}-KOL-${Math.floor(10000 + Math.random() * 90000)}`;
+    }
+    const existing = await Booking.findOne({ bookingId: finalBookingId });
+    if (existing) {
+      finalBookingId = `MOV-${new Date().getFullYear()}-KOL-${Math.floor(10000 + Math.random() * 90000)}`;
+    }
+
     // Generate QR data string
-    const qrData = JSON.stringify({ bookingId, movie: movieName, date, showtime, seats, email: bookedByEmail });
+    const qrData = JSON.stringify({ bookingId: finalBookingId, movie: movieName, date, showtime, seats, email: bookedByEmail });
 
     const booking = await Booking.create({
-      bookingId, movieId, movieName, date, showtime,
+      bookingId: finalBookingId, movieId, movieName, date, showtime,
       audiId, audiName, seats, seatTotal, foodItems,
       foodTotal, convenienceFee, grandTotal,
       bookedByEmail, bookedByPhone, paymentMethod, paymentId,
       qrData, status: 'confirmed'
     });
 
-    console.log(`✅ Booking created: ${bookingId} for ${bookedByEmail}`);
+    console.log(`✅ Booking created: ${finalBookingId} for ${bookedByEmail}`);
     res.json({ success: true, booking });
   } catch (err) {
     console.error('❌ Booking error:', err.message);

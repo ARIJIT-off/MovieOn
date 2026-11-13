@@ -2,11 +2,10 @@
 // MOViEON — Utility Functions
 // ═══════════════════════════════════════════════════════════════
 
-let bookingCounter = 412;
-
 function generateBookingId() {
-  bookingCounter++;
-  return `MOV-2025-KOL-${String(bookingCounter).padStart(5, '0')}`;
+  const year = new Date().getFullYear();
+  const randomSuffix = Math.floor(10000 + Math.random() * 90000);
+  return `MOV-${year}-KOL-${randomSuffix}`;
 }
 
 function formatCurrency(amount) {

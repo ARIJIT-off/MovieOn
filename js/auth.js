@@ -116,6 +116,19 @@ async function verifyOTP() {
     session.name = data.name || null;
     session.isLoggedIn = true;
 
+    // Persist session to localStorage so hard refresh doesn't log out
+    try {
+      localStorage.setItem('movieon_session', JSON.stringify({
+        role: session.role,
+        email: session.email,
+        phone: session.phone,
+        name: session.name,
+        isLoggedIn: true
+      }));
+    } catch (e) {
+      console.warn('Could not save session to localStorage:', e);
+    }
+
     onLoginSuccess();
 
   } catch (err) {
@@ -168,6 +181,13 @@ function logout() {
   session.role = null;
   session.email = null;
   session.isLoggedIn = false;
+
+  // Clear persisted session
+  try {
+    localStorage.removeItem('movieon_session');
+  } catch (e) {
+    console.warn('Could not clear session from localStorage:', e);
+  }
 
   // Reset state if exists
   if (typeof state !== 'undefined') {
@@ -390,8 +410,26 @@ function downloadTicket(bookingId, movieName) {
   showToast('Ticket downloaded!', 'success');
 }
 
-// ── Init background canvas (from auth page) ───────────────────
+// ── Init background canvas and session restore ───────────────
 document.addEventListener('DOMContentLoaded', () => {
+  // Check for saved session in localStorage
+  try {
+    const saved = localStorage.getItem('movieon_session');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed && parsed.isLoggedIn && parsed.email) {
+        session.role = parsed.role || 'user';
+        session.email = parsed.email;
+        session.phone = parsed.phone || null;
+        session.name = parsed.name || null;
+        session.isLoggedIn = true;
+        onLoginSuccess();
+      }
+    }
+  } catch (e) {
+    console.warn('Could not restore session:', e);
+  }
+
   // Start background canvas
   const canvas = document.getElementById('bg-canvas');
   if (canvas) {
