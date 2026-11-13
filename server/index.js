@@ -392,6 +392,34 @@ app.get('/api/bookings/user', async (req, res) => {
   }
 });
 
+// Snack id -> display name mapping for backend XLSX reports
+const SNACK_NAMES = {
+  c1: "Classic Combo",
+  c2: "Jumbo Combo",
+  c3: "Nachos Combo",
+  p1: "Salted Popcorn (S)",
+  p2: "Salted Popcorn (M)",
+  p3: "Salted Popcorn (L)",
+  p4: "Caramel Popcorn (S)",
+  p5: "Caramel Popcorn (M)",
+  p6: "Caramel Popcorn (L)",
+  b1: "Pepsi (500ml)",
+  b2: "7UP (500ml)",
+  b3: "Mountain Dew (500ml)",
+  b4: "Aquafina Water (1L)",
+  b5: "Cold Coffee",
+  s1: "Nachos with Salsa",
+  s2: "Hot Dog",
+  s3: "Paneer Tikka Wrap",
+  s4: "Brownie with Ice Cream"
+};
+
+const AUDI_LABELS = {
+  1: "Audi 1 STD",
+  2: "Audi 2 STD+",
+  3: "Audi 3 REC"
+};
+
 // ── BOOKINGS: Download XLSX ───────────────────────────────────
 app.get('/api/admin/bookings/download', async (req, res) => {
   try {
@@ -404,10 +432,17 @@ app.get('/api/admin/bookings/download', async (req, res) => {
     const bookings = await Booking.find(filter).sort({ date: 1, showtime: 1 });
 
     const rows = bookings.map(b => {
-      const snacks = Object.entries(b.foodItems || {}).map(([id, qty]) => `${id}(${qty})`).join(', ');
+      const snacks = Object.entries(b.foodItems || {})
+        .filter(([, qty]) => qty > 0)
+        .map(([id, qty]) => `${SNACK_NAMES[id] || id} (${qty})`)
+        .join(', ');
+
+      const hall = AUDI_LABELS[b.audiId] || (b.audiName ? `${b.audiName}` : 'Audi 1 STD');
+
       return {
         'Date': b.date,
         'Movie Name': b.movieName,
+        'Hall': hall,
         'Show Time': b.showtime,
         'Seats Booked': b.seats.join(', '),
         'Booked By': b.bookedByEmail,

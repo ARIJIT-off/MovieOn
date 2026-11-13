@@ -49,6 +49,31 @@ async function switchAdminBookingTab(period) {
   await loadAdminBookings(period);
 }
 
+// Helper to resolve snack name by id
+function getSnackDisplayName(id) {
+  if (typeof getFoodItemById === 'function') {
+    const item = getFoodItemById(id);
+    if (item && item.name) return item.name;
+  }
+  return id;
+}
+
+// Helper to resolve hall / audi name and label (e.g., "Audi 1 STD", "Audi 2 STD+", "Audi 3 REC")
+function getAudiDisplayLabel(b) {
+  if (b.audiId && typeof SCREENS !== 'undefined') {
+    const scr = SCREENS.find(s => s.id === Number(b.audiId));
+    if (scr) return `${scr.name} ${scr.label || ''}`.trim();
+  }
+  if (b.audiName) {
+    if (typeof SCREENS !== 'undefined') {
+      const scr = SCREENS.find(s => s.name.toLowerCase() === b.audiName.toLowerCase());
+      if (scr) return `${scr.name} ${scr.label || ''}`.trim();
+    }
+    return b.audiName;
+  }
+  return 'Audi 1 STD';
+}
+
 async function loadAdminBookings(period) {
   const container = document.getElementById('admin-bookings-content');
   // Show skeleton rows while fetching
@@ -59,8 +84,10 @@ async function loadAdminBookings(period) {
           <div class="skeleton skeleton-line" style="width:80px;height:13px;flex-shrink:0;"></div>
           <div class="skeleton skeleton-line" style="width:160px;height:13px;flex-shrink:0;"></div>
           <div class="skeleton skeleton-line" style="width:70px;height:13px;flex-shrink:0;"></div>
-          <div class="skeleton skeleton-line" style="width:100px;height:13px;flex-shrink:0;"></div>
-          <div class="skeleton skeleton-line" style="width:150px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:80px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:80px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:140px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:120px;height:13px;flex-shrink:0;"></div>
           <div class="skeleton skeleton-line" style="width:60px;height:13px;flex-shrink:0;"></div>
         </div>
       `).join('')}
@@ -77,16 +104,19 @@ async function loadAdminBookings(period) {
     }
 
     const rows = bookings.map(b => {
-      // Format food items
+      // Format food items with friendly snack names
       const snacks = Object.entries(b.foodItems || {})
         .filter(([,qty]) => qty > 0)
-        .map(([id, qty]) => `${id}(${qty})`)
+        .map(([id, qty]) => `${getSnackDisplayName(id)} (${qty})`)
         .join(', ') || '—';
+
+      const hallName = getAudiDisplayLabel(b);
 
       return `
         <tr>
           <td>${b.date}</td>
           <td style="font-weight:600;color:#fff">${b.movieName}</td>
+          <td style="color:#d4a574;font-weight:600;">${hallName}</td>
           <td>${b.showtime}</td>
           <td style="font-family:monospace;color:#f97316">${b.seats.join(', ')}</td>
           <td style="color:#a3e635">${b.bookedByEmail}</td>
@@ -103,6 +133,7 @@ async function loadAdminBookings(period) {
             <tr>
               <th>Date</th>
               <th>Movie</th>
+              <th>Hall</th>
               <th>Time</th>
               <th>Seats</th>
               <th>Booked By</th>
