@@ -20,20 +20,9 @@ const state = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  initTheatreInfo();
-  // Ensure background canvas gets set up
-  initBackgroundCanvas();
+  // Auth guards: app.js navigate/init is called only after login (from auth.js onLoginSuccess)
   // Fallback to today
   state.selectedDate = getNext7Days()[0].date;
-  
-  // Check for ticket verification in URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const ticketId = urlParams.get('ticketId');
-  if (ticketId) {
-    navigate('verify', { ticketId });
-  } else {
-    navigate('home');
-  }
 });
 
 function initTheatreInfo() {
@@ -164,7 +153,7 @@ function navigate(viewName, params = {}) {
         showToast('Please select date, time and audi first', 'error');
         return navigate('movie-detail');
       }
-      renderSeatSelection(container);
+      renderSeatSelectionAsync(container);
       break;
     case 'food-selection':
       if (state.selectedSeats.length === 0) {
@@ -189,6 +178,12 @@ function navigate(viewName, params = {}) {
     }
     case 'verify':
       renderTicketVerification(container, params.ticketId);
+      break;
+    case 'admin-bookings':
+      renderAdminBookings();
+      break;
+    case 'admin-users':
+      renderAdminUsers();
       break;
   }
   animateIn(container);
@@ -357,6 +352,24 @@ window.selectDate = function(date) { state.selectedDate = date; navigate('movie-
 window.selectShowtime = function(time) { state.selectedShowtime = time; state.selectedAudi = null; navigate('movie-detail'); };
 window.selectAudi = function(audi) { state.selectedAudi = audi; navigate('movie-detail'); };
 
+// ── Async seat selection (fetches real booked seats from DB) ──
+async function renderSeatSelectionAsync(container) {
+  container.innerHTML = '<div style="text-align:center;padding:60px;color:#888">Loading seat layout...</div>';
+  try {
+    const res = await fetch(`${API_BASE}/api/seats/booked?movieId=${state.selectedMovie}&date=${state.selectedDate}&showtime=${encodeURIComponent(state.selectedShowtime)}&audiId=${state.selectedAudi}`);
+    const data = await res.json();
+    // Override the in-memory booked seats with real DB data
+    const key = getShowKey(state.selectedMovie, state.selectedDate, state.selectedShowtime, state.selectedAudi);
+    BOOKED_SEATS[key] = new Set(data.bookedSeats || []);
+  } catch (err) {
+    console.warn('Could not fetch booked seats from server, using local cache:', err.message);
+    // Fall back to local (empty = no fake bookings)
+    const key = getShowKey(state.selectedMovie, state.selectedDate, state.selectedShowtime, state.selectedAudi);
+    if (!BOOKED_SEATS[key]) BOOKED_SEATS[key] = new Set();
+  }
+  renderSeatSelection(container);
+}
+
 function renderSeatSelection(container) {
   const bookedSeats = getBookedSeats(state.selectedMovie, state.selectedDate, state.selectedShowtime, state.selectedAudi);
   const recommendedSeats = recommendSeats(state.selectedAudi, state.seatCount, state.seatTypePreference, bookedSeats);
@@ -523,6 +536,12 @@ window.updateFood = function(id, delta) {
 function renderCheckout(container) {
   const total = calculateSeatTotal(state.selectedAudi, state.selectedSeats) + calculateFoodTotal(state.foodItems) + 30;
 
+  // Pre-fill from session
+  const sessionEmail = (typeof session !== 'undefined' && session.email) ? session.email : state.userEmail;
+  const sessionPhone = (typeof session !== 'undefined' && session.phone) ? session.phone : state.userMobile;
+  const sessionName = (typeof session !== 'undefined' && session.name) ? session.name : state.userName;
+  const razorpayMobileRequired = `<span style="color:#f97316;font-size:12px;"> ⚠ Required for Razorpay</span>`;
+
   let html = `
     <div style="display:flex; gap: 32px;">
       <div style="flex: 2;">
@@ -533,16 +552,16 @@ function renderCheckout(container) {
            <div style="display:flex; gap:16px; margin-bottom:16px;">
              <div class="form-group">
                <label>Full Name</label>
-               <input type="text" value="${state.userName}" id="chk-name" />
+               <input type="text" value="${sessionName}" id="chk-name" placeholder="Enter your name" />
              </div>
              <div class="form-group">
-               <label>Mobile Number</label>
-               <input type="text" value="${state.userMobile}" id="chk-mobile" />
+               <label>Mobile Number ${razorpayMobileRequired}</label>
+               <input type="text" value="${sessionPhone}" id="chk-mobile" placeholder="+91 XXXXXXXXXX (optional for UPI)" />
              </div>
            </div>
            <div class="form-group" style="margin-bottom:0;">
              <label>Email ID</label>
-             <input type="email" value="${state.userEmail}" id="chk-email" />
+             <input type="email" value="${sessionEmail}" id="chk-email" readonly style="opacity:0.7;cursor:not-allowed;" />
            </div>
          </div>
 
@@ -677,11 +696,19 @@ const RAZORPAY_KEY_ID = 'rzp_test_SXF85KUUEBsHkt';
 let upiTimerInterval = null;
 
 window.processPayment = async function() {
-  state.userName = document.getElementById('chk-name').value;
-  state.userMobile = document.getElementById('chk-mobile').value;
-  state.userEmail = document.getElementById('chk-email').value;
+  state.userName = document.getElementById('chk-name').value.trim();
+  state.userMobile = document.getElementById('chk-mobile').value.trim();
+  // Always use authenticated session email (readonly field)
+  state.userEmail = (typeof session !== 'undefined' && session.email) ? session.email : document.getElementById('chk-email').value.trim();
 
   const selectedMethod = document.querySelector('input[name="paymethod"]:checked').value;
+
+  // Razorpay requires mobile number
+  if (selectedMethod === 'razorpay' && !state.userMobile) {
+    showToast('Mobile number is required for Razorpay payments', 'error');
+    document.getElementById('chk-mobile').focus();
+    return;
+  }
 
   if (selectedMethod === 'upi') {
     processUpiPayment();
@@ -757,9 +784,11 @@ function startUpiProcessingSequence() {
     progress.style.width = '100%';
   }, 6000);
 
-  setTimeout(() => {
+  setTimeout(async () => {
     // Phase 4: Completion (10s)
-    createBooking(state);
+    const booking = createBooking(state);
+    // Save booking to MongoDB
+    await saveBookingToMongoDB(booking, 'upi', null);
     showToast('Payment confirmed! Your ticket is ready.', 'success');
     
     setTimeout(() => {
@@ -838,7 +867,8 @@ async function processRazorpayPayment() {
           const verifyData = await verifyResp.json();
 
           if (verifyData.verified) {
-            createBooking(state);
+            const booking = createBooking(state);
+            await saveBookingToMongoDB(booking, 'razorpay', response.razorpay_payment_id);
             showToast(`Payment verified! ID: ${response.razorpay_payment_id}`, 'success');
             setTimeout(() => navigate('confirmation'), 800);
           } else {
@@ -847,7 +877,8 @@ async function processRazorpayPayment() {
           }
         } catch (verifyErr) {
           console.error('Verify error:', verifyErr);
-          createBooking(state);
+          const booking = createBooking(state);
+          await saveBookingToMongoDB(booking, 'razorpay', null);
           showToast('Payment received! Generating ticket...', 'success');
           setTimeout(() => navigate('confirmation'), 800);
         }
@@ -881,5 +912,49 @@ function resetPayButton() {
     payBtn.disabled = false;
     payBtn.textContent = `Pay ${formatCurrency(total)}`;
     payBtn.style.opacity = '1';
+  }
+}
+
+
+// ── Save booking to MongoDB ───────────────────────────────────
+async function saveBookingToMongoDB(booking, paymentMethod, paymentId) {
+  try {
+    const movie = MOVIES.find(m => m.id === state.selectedMovie);
+    const audi = SCREENS.find(s => s.id === state.selectedAudi);
+    const payload = {
+      bookingId: booking.id,
+      movieId: booking.movie.id,
+      movieName: booking.movie.title,
+      date: booking.date,
+      showtime: booking.showtime,
+      audiId: booking.audi.id,
+      audiName: booking.audi.name,
+      seats: booking.seats,
+      seatTotal: booking.seatTotal,
+      foodItems: booking.foodItems,
+      foodTotal: booking.foodTotal,
+      convenienceFee: booking.convenienceFee,
+      grandTotal: booking.grandTotal,
+      bookedByEmail: booking.userEmail || (typeof session !== 'undefined' ? session.email : ''),
+      bookedByPhone: booking.userMobile || null,
+      paymentMethod: paymentMethod || 'upi',
+      paymentId: paymentId || null
+    };
+
+    const res = await fetch(`${API_BASE}/api/bookings/create`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error('Failed to save booking to DB:', err);
+      showToast('Booking saved locally. Database sync pending.', 'info');
+    } else {
+      console.log('✅ Booking saved to MongoDB');
+    }
+  } catch (err) {
+    console.error('MongoDB save error:', err.message);
   }
 }

@@ -121,7 +121,7 @@ const MOVIES = [
     backdrop: "https://image.tmdb.org/t/p/w1280/8S2DXdKY23wfYq4v0awYXov4c8g.jpg",
     gradient: "linear-gradient(135deg, #78350f 0%, #451a03 50%, #1c0a00 100%)",
     accent: "#f59e0b",
-    trailerYouTubeId: "YfmQRfNMU2s"
+    trailerYouTubeId: "qGbvEhKhaWA"
   },
   {
     id: 5,
@@ -131,14 +131,14 @@ const MOVIES = [
     language: "Hindi",
     rating: 6.1,
     certificate: "UA",
-    director: "Hardik Mehta",
-    cast: ["Vicky Kaushal", "Tripti Dimri", "Manoj Pahwa", "Kumud Mishra"],
+    director: "Aakash A. Kaushik",
+    cast: ["Ayushmann Khurrana", "Sara Ali Khan", "Manoj Pahwa", "Kumud Mishra"],
     synopsis: "An amnesiac Pakistani spy wakes up believing he is a patriotic Indian counter-terrorism officer. Caught between two identities and two nations, he must figure out who he really is before both sides catch up with him — in this razor-sharp action comedy.",
     poster: "https://image.tmdb.org/t/p/w500/tvICKypVlW7Iio4KVs7NousbSKi.jpg",
     backdrop: "https://image.tmdb.org/t/p/w1280/ncVecUcDZe1EOWtHaU2f8BFvbx4.jpg",
     gradient: "linear-gradient(135deg, #065f46 0%, #064e3b 50%, #0a0f0d 100%)",
     accent: "#10b981",
-    trailerYouTubeId: "3vvBhzPcmFQ"
+    trailerYouTubeId: "hN_ZUElLH44"
   },
   {
     id: 6,
@@ -148,14 +148,14 @@ const MOVIES = [
     language: "Hindi",
     rating: 7.2,
     certificate: "UA",
-    director: "Shashanka Ghosh",
-    cast: ["Sara Ali Khan", "Aditya Roy Kapur", "Dimple Kapadia", "Pankaj Kapur"],
+    director: "Rahul Shanklya",
+    cast: ["Ansh Duggal", "Pragati Srivastava", "Brijendra Kala", "Seema Pahwa"],
     synopsis: "Sumit Mishra cross-dresses as a woman to win over his love interest Paridhi, leading to the most chaotic and heartwarming romantic comedy of the year. A film about love, identity, and the lengths people go to for the one they adore.",
     poster: "https://image.tmdb.org/t/p/w500/oC8kSyOdioegcXl8OfcG6uctyK2.jpg",
     backdrop: "https://image.tmdb.org/t/p/w1280/kkNZzSG0vWhetsbQ74SjVzUyq4s.jpg",
     gradient: "linear-gradient(135deg, #831843 0%, #500724 50%, #1c0413 100%)",
     accent: "#f472b6",
-    trailerYouTubeId: "v3PsvMOR4EM"
+    trailerYouTubeId: "Gw5_UTgjVgY"
   }
 ];
 
@@ -201,27 +201,15 @@ function getShowKey(movieId, date, showtime, audiId) {
 function getBookedSeats(movieId, date, showtime, audiId) {
   const key = getShowKey(movieId, date, showtime, audiId);
   if (!BOOKED_SEATS[key]) {
-    BOOKED_SEATS[key] = generateRandomBookedSeats(audiId);
+    // Start with empty set — real data fetched from MongoDB via renderSeatSelectionAsync
+    BOOKED_SEATS[key] = new Set();
   }
   return BOOKED_SEATS[key];
 }
 
 function generateRandomBookedSeats(audiId) {
-  const screen = SCREENS.find(s => s.id === audiId);
-  const booked = new Set();
-  const allSeats = [];
-  screen.zones.forEach(zone => {
-    zone.rows.forEach(row => {
-      for (let s = 1; s <= zone.seatsPerRow; s++) {
-        allSeats.push(`${row}${s}`);
-      }
-    });
-  });
-  const bookRate = 0.30 + Math.random() * 0.15;
-  const bookCount = Math.floor(allSeats.length * bookRate);
-  const shuffled = [...allSeats].sort(() => Math.random() - 0.5);
-  shuffled.slice(0, bookCount).forEach(s => booked.add(s));
-  return booked;
+  // Disabled: seats are now fetched from MongoDB (no fake bookings)
+  return new Set();
 }
 
 function markSeatsAsBooked(movieId, date, showtime, audiId, seatIds) {

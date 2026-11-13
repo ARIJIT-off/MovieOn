@@ -1,14 +1,21 @@
 {
-  "name": "movieon-payment-server",
-  "version": "1.0.0",
-  "description": "Razorpay order creation server for MOViEON",
+  "name": "movieon-server",
+  "version": "2.0.0",
+  "description": "MOViEON backend: Auth, OTP, Bookings, MongoDB, Razorpay",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "razorpay": "^2.9.2"
+    "razorpay": "^2.9.2",
+    "mongoose": "^8.3.0",
+    "nodemailer": "^6.9.9",
+    "dotenv": "^16.4.5",
+    "xlsx": "^0.18.5",
+    "qrcode": "^1.5.3",
+    "crypto": "^1.0.1"
   }
 }

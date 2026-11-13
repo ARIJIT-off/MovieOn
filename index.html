@@ -3,19 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOViEON - Premium Dark Cinema Booking</title>
-    
-    <!-- Icons and Fonts from CDNs -->
+    <title>MOViEON — Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Load CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
-<body>
-    
+<body class="auth-body">
     <canvas id="bg-canvas"></canvas>
     <div class="bg-overlay"></div>
 
-    <div class="app-wrapper">
+    <!-- Login Page -->
+    <div class="auth-page" id="auth-page">
+        <div class="auth-container">
+            <!-- Brand -->
+            <div class="auth-brand">
+                <div class="auth-logo">M</div>
+                <div class="auth-title">MOViE<span>ON</span></div>
+                <p class="auth-subtitle">Premium Cinema Experience</p>
+            </div>
+
+            <!-- Role Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab auth-tab--active" id="tab-user" onclick="switchAuthTab('user')">
+                    🎬 User
+                </button>
+                <button class="auth-tab" id="tab-admin" onclick="switchAuthTab('admin')">
+                    🛡️ Admin
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-card" id="auth-card">
+                <div class="auth-role-label" id="auth-role-label">Sign in as User</div>
+
+                <!-- Step 1: Email -->
+                <div id="auth-step-email">
+                    <div class="auth-field">
+                        <label class="auth-label">Email Address</label>
+                        <input
+                            type="email"
+                            class="auth-input"
+                            id="auth-email-input"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            onkeydown="if(event.key==='Enter') sendOTP()"
+                        />
+                    </div>
+                    <button class="auth-btn" id="auth-send-otp-btn" onclick="sendOTP()">
+                        <span id="auth-send-otp-label">Send OTP</span>
+                        <span class="auth-btn-spinner hidden" id="auth-send-otp-spinner">⏳</span>
+                    </button>
+                </div>
+
+                <!-- Step 2: OTP -->
+                <div id="auth-step-otp" class="hidden">
+                    <p class="auth-otp-hint" id="auth-otp-hint"></p>
+                    <div class="auth-otp-boxes" id="auth-otp-boxes">
+                        <input type="text" maxlength="1" class="auth-otp-box" id="otp-0" oninput="otpInput(0)" onkeydown="otpKeydown(event,0)">
+                        <input type="text" maxlength="1" class="auth-otp-box" id="otp-1" oninput="otpInput(1)" onkeydown="otpKeydown(event,1)">
+                        <input type="text" maxlength="1" class="auth-otp-box" id="otp-2" oninput="otpInput(2)" onkeydown="otpKeydown(event,2)">
+                        <input type="text" maxlength="1" class="auth-otp-box" id="otp-3" oninput="otpInput(3)" onkeydown="otpKeydown(event,3)">
+                    </div>
+                    <button class="auth-btn" id="auth-verify-btn" onclick="verifyOTP()">
+                        <span id="auth-verify-label">Verify & Login</span>
+                        <span class="auth-btn-spinner hidden" id="auth-verify-spinner">⏳</span>
+                    </button>
+                    <button class="auth-link-btn" onclick="backToEmail()">← Change Email</button>
+                </div>
+
+                <!-- Error Message -->
+                <div class="auth-error hidden" id="auth-error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (hidden until login) -->
+    <div class="app-wrapper hidden" id="main-app">
         <!-- Header -->
         <header class="header">
             <div class="header__brand" onclick="navigate('home')">
@@ -23,9 +86,47 @@
                 <div class="header__title">MOViE<span>ON</span></div>
             </div>
             <nav class="header__nav">
-                <button class="nav-link nav-link--active" onclick="navigate('home')">Movies</button>
+                <button class="nav-link nav-link--active" onclick="navigate('home')" id="nav-movies">Movies</button>
+                <!-- Admin-only nav items (shown after admin login) -->
+                <button class="nav-link hidden" id="nav-bookings" onclick="navigate('admin-bookings')">📋 Bookings</button>
+                <button class="nav-link hidden" id="nav-admins" onclick="navigate('admin-users')">👥 Manage Admins</button>
             </nav>
+            <!-- User Profile Button (shown for users) -->
+            <div class="header__profile hidden" id="header-profile">
+                <button class="profile-btn" onclick="toggleProfilePanel()">
+                    <span class="profile-avatar" id="profile-avatar">U</span>
+                    <span class="profile-email-short" id="profile-email-short">user</span>
+                </button>
+            </div>
+            <!-- Logout -->
+            <button class="header__logout" id="header-logout" onclick="logout()">Logout</button>
         </header>
+
+        <!-- User Profile Panel (slide-in from top-right) -->
+        <div class="profile-panel hidden" id="profile-panel">
+            <div class="profile-panel__inner">
+                <div class="profile-panel__header">
+                    <h3>My Profile</h3>
+                    <button onclick="toggleProfilePanel()" class="profile-panel__close">✕</button>
+                </div>
+                <div class="profile-panel__info">
+                    <div class="profile-info-row">
+                        <span class="profile-info-label">📧 Email</span>
+                        <span class="profile-info-value" id="pp-email">—</span>
+                    </div>
+                    <div class="profile-info-row">
+                        <span class="profile-info-label">📱 Phone</span>
+                        <span class="profile-info-value" id="pp-phone">NA</span>
+                    </div>
+                </div>
+                <div class="profile-panel__orders">
+                    <h4>Your Orders</h4>
+                    <div id="pp-orders-list">
+                        <div class="profile-orders-loading">Loading your bookings...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="main-layout">
             <!-- Main Content Area -->
@@ -41,7 +142,6 @@
                 <div class="sidebar__info">
                     <h3 class="sidebar__theatre-name" id="theatre-name"></h3>
                     <p class="sidebar__address" id="theatre-address"></p>
-                    
                     <div class="sidebar__contact">
                         <span class="sidebar__contact-icon">📞</span>
                         <div>
@@ -49,11 +149,7 @@
                             <div class="sidebar__contact-text" id="theatre-contact"></div>
                         </div>
                     </div>
-                    
-                    <div class="sidebar__tech" id="theatre-tech">
-                        <!-- Tech badges injected via JS -->
-                    </div>
-
+                    <div class="sidebar__tech" id="theatre-tech"></div>
                     <div class="sidebar__directions">
                         <button class="btn btn--primary" style="width: 100%; border: 1px solid var(--border-subtle); padding: 12px; background: rgba(255,255,255,0.05); color: var(--text-primary); border-radius: var(--radius-sm); cursor: pointer;" onclick="getDirections()">📍 Get Directions</button>
                     </div>
@@ -75,8 +171,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="js/data.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
     <script src="js/seats.js"></script>
     <script src="js/booking.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>
