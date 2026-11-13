@@ -283,7 +283,18 @@ function toggleProfilePanel() {
 
 async function loadUserOrders() {
   const list = document.getElementById('pp-orders-list');
-  list.innerHTML = '<div class="profile-orders-loading">Loading your bookings...</div>';
+  // Skeleton loader while fetching
+  list.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      ${Array.from({length:3}, () => `
+        <div style="padding:12px;border:1px solid rgba(255,255,255,0.08);border-radius:4px;">
+          <div class="skeleton skeleton-line skeleton-line--medium" style="margin-bottom:8px;"></div>
+          <div class="skeleton skeleton-line skeleton-line--full" style="height:11px;margin-bottom:6px;"></div>
+          <div class="skeleton skeleton-line skeleton-line--short" style="height:11px;"></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 
   try {
     const res = await fetch(`${API_BASE}/api/bookings/user?email=${encodeURIComponent(session.email)}`);
@@ -298,12 +309,12 @@ async function loadUserOrders() {
       <div class="profile-order-card">
         <div class="profile-order-movie">${b.movieName}</div>
         <div class="profile-order-meta">
-          📅 ${b.date} &nbsp;•&nbsp; 🕐 ${b.showtime}<br>
-          🎭 ${b.audiName} &nbsp;•&nbsp; 💺 ${b.seats.join(', ')}<br>
-          💰 ₹${b.grandTotal}
+          ${b.date} &nbsp;&bull;&nbsp; ${b.showtime}<br>
+          ${b.audiName} &nbsp;&bull;&nbsp; ${b.seats.join(', ')}<br>
+          Rs.${b.grandTotal}
         </div>
         <button class="profile-order-ticket-btn" onclick="showTicketModal('${b.bookingId}')">
-          🎫 View & Download Ticket
+          View &amp; Download Ticket
         </button>
       </div>
     `).join('');
@@ -330,7 +341,7 @@ async function showTicketModal(bookingId) {
     overlay.innerHTML = `
       <div class="ticket-modal">
         <button class="ticket-modal__close" onclick="closeTicketModal()">✕</button>
-        <div class="ticket-modal__title">🎫 ${b.movieName}</div>
+        <div class="ticket-modal__title">${b.movieName}</div>
         <div class="ticket-modal__sub">${b.audiName} &nbsp;•&nbsp; ${b.date} &nbsp;•&nbsp; ${b.showtime}</div>
         <div class="ticket-qr-wrap">
           <div id="ticket-qr-canvas"></div>
@@ -342,7 +353,7 @@ async function showTicketModal(bookingId) {
           <strong>Email:</strong> ${b.bookedByEmail}
         </div>
         <button class="ticket-download-btn" onclick="downloadTicket('${b.bookingId}', '${b.movieName}')">
-          ⬇ Download Ticket
+          Download Ticket
         </button>
       </div>
     `;

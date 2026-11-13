@@ -354,7 +354,20 @@ window.selectAudi = function(audi) { state.selectedAudi = audi; navigate('movie-
 
 // ── Async seat selection (fetches real booked seats from DB) ──
 async function renderSeatSelectionAsync(container) {
-  container.innerHTML = '<div style="text-align:center;padding:60px;color:#888">Loading seat layout...</div>';
+  // Show skeleton while loading
+  container.innerHTML = `
+    <div style="padding:28px;">
+      <div class="skeleton skeleton-line skeleton-line--title"></div>
+      <div class="skeleton skeleton-line skeleton-line--medium" style="margin-bottom:20px;"></div>
+      <div class="skeleton-seat-grid">
+        ${Array.from({length:8}, () => `
+          <div class="skeleton-seat-row">
+            ${Array.from({length:12}, () => `<div class="skeleton skeleton-seat"></div>`).join('')}
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
   try {
     const res = await fetch(`${API_BASE}/api/seats/booked?movieId=${state.selectedMovie}&date=${state.selectedDate}&showtime=${encodeURIComponent(state.selectedShowtime)}&audiId=${state.selectedAudi}`);
     const data = await res.json();
@@ -637,7 +650,7 @@ function renderCheckout(container) {
 
           <div style="background:rgba(255,255,255,0.03); border:2px dashed rgba(255,255,255,0.1); border-radius:12px; padding:40px 20px; margin-bottom:24px; position:relative;">
             <input type="file" id="upi-file-input" style="position:absolute; inset:0; opacity:0; cursor:pointer;" onchange="handleUpiFileUpload(this)">
-            <div style="font-size:40px; margin-bottom:12px;">📄</div>
+            <div style="font-size:32px; margin-bottom:12px; color:#888;">&#8679;</div>
             <div style="color:var(--text-primary); font-weight:600;">Click or drop file here</div>
             <div style="color:var(--text-muted); font-size:12px; margin-top:4px;">Supports PNG, JPG or PDF</div>
           </div>
@@ -650,8 +663,8 @@ function renderCheckout(container) {
             <h2 id="upi-process-text" style="font-family:var(--font-display); font-size:24px; color:#fff; transition: all 0.3s;">Scanning details...</h2>
             
             <div style="margin-top:24px;">
-              <div style="background:rgba(255,255,255,0.08); border-radius:100px; height:6px; width:260px; margin:0 auto; overflow:hidden;">
-                <div id="upi-process-progress" style="height:100%; width:0%; background:linear-gradient(90deg, #d4a574, #f4d0a4); border-radius:100px; transition: width 0.5s ease;"></div>
+              <div style="background:rgba(255,255,255,0.08); border-radius:2px; height:6px; width:260px; margin:0 auto; overflow:hidden;">
+                <div id="upi-process-progress" style="height:100%; width:0%; background:linear-gradient(90deg, #d4a574, #f4d0a4); border-radius:2px; transition: width 0.5s ease;"></div>
               </div>
             </div>
           </div>

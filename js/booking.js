@@ -84,7 +84,7 @@ function renderOrderSummary(state) {
         const item = getFoodItemById(id);
         foodBreakdown += `
           <div class="summary-line">
-            <span>${item.emoji} ${item.name} × ${qty}</span>
+            <span>${item.name} × ${qty}</span>
             <span>${formatCurrency(item.price * qty)}</span>
           </div>`;
       }
@@ -111,13 +111,13 @@ function renderOrderSummary(state) {
       </div>
 
       <div class="order-summary__section">
-        <h4>🎬 Seats</h4>
+        <h4>Seats</h4>
         ${seatBreakdown}
       </div>
 
       ${foodBreakdown ? `
       <div class="order-summary__section">
-        <h4>🍿 Food & Beverages</h4>
+        <h4>Food & Beverages</h4>
         ${foodBreakdown}
       </div>` : ''}
 
@@ -159,12 +159,12 @@ function renderTicketConfirmation(booking) {
     Object.entries(booking.foodItems).forEach(([id, qty]) => {
       if (qty > 0) {
         const item = getFoodItemById(id);
-        items.push(`${item.emoji} ${item.name} × ${qty}`);
+        items.push(`${item.name} × ${qty}`);
       }
     });
     if (items.length > 0) {
       foodList = `<div class="ticket__food">
-        <h4>🍿 Food Order</h4>
+        <h4>Food Order</h4>
         <p>${items.join(' &nbsp;•&nbsp; ')}</p>
       </div>`;
     }
@@ -197,19 +197,19 @@ function renderTicketConfirmation(booking) {
         <div class="ticket__body">
           <div class="ticket__details-grid">
             <div class="ticket__detail">
-              <span class="ticket__detail-label">📅 Date</span>
+              <span class="ticket__detail-label">Date</span>
               <span class="ticket__detail-value">${dateDisplay}</span>
             </div>
             <div class="ticket__detail">
-              <span class="ticket__detail-label">🕐 Time</span>
+              <span class="ticket__detail-label">Time</span>
               <span class="ticket__detail-value">${booking.showtime}</span>
             </div>
             <div class="ticket__detail">
-              <span class="ticket__detail-label">🖥️ Screen</span>
+              <span class="ticket__detail-label">Screen</span>
               <span class="ticket__detail-value">${booking.audi.name}</span>
             </div>
             <div class="ticket__detail">
-              <span class="ticket__detail-label">💺 Seats</span>
+              <span class="ticket__detail-label">Seats</span>
               <span class="ticket__detail-value">${booking.seats.join(', ')}</span>
             </div>
           </div>
@@ -225,20 +225,20 @@ function renderTicketConfirmation(booking) {
         </div>
 
         <div class="ticket__venue">
-          <p>📍 ${THEATRE.shortName}</p>
+          <p>${THEATRE.shortName}</p>
           <p class="ticket__venue-address">${THEATRE.address}</p>
         </div>
       </div>
 
       <div class="booking-confirmed__actions">
         <button class="btn btn--primary" onclick="getDirections()">
-          <span>📍</span> Get Directions
+          Get Directions
         </button>
         <button class="btn btn--secondary" onclick="downloadTicket()">
-          <span>📥</span> Download Ticket
+          Download Ticket
         </button>
         <button class="btn btn--ghost" onclick="navigate('home')">
-          <span>🏠</span> Back to Home
+          Back to Home
         </button>
       </div>
     </div>
@@ -252,11 +252,10 @@ function renderTicketVerification(container, ticketId) {
   if (!booking) {
     container.innerHTML = `
       <div style="text-align:center; padding:100px 20px; min-height:80vh; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-        <div style="font-size:80px; margin-bottom:24px; animation: invalid-shake 0.5s ease-in-out;">🎫</div>
-        <div style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; color:#ef4444; padding:6px 16px; border-radius:100px; font-weight:700; font-size:12px; margin-bottom:20px; letter-spacing:1px;">INVALID TICKET</div>
+        <div style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; color:#ef4444; padding:6px 16px; border-radius:2px; font-weight:700; font-size:12px; margin-bottom:20px; letter-spacing:1px;">INVALID TICKET</div>
         <h2 style="font-family:var(--font-display); font-size:32px; color:#fff; margin-bottom:12px;">Verification Failed</h2>
         <p style="color:var(--text-secondary); max-width:360px; line-height:1.6; margin-bottom:40px;">The ticket ID <strong style="color:var(--accent-gold); font-family:monospace;">${ticketId}</strong> was not found in our live database. It may be fraudulent or expired.</p>
-        <button class="btn btn--primary" style="padding:14px 40px; border-radius:100px;" onclick="navigate('home')">Back to Home</button>
+        <button class="btn btn--primary" style="padding:14px 40px; border-radius:2px;" onclick="navigate('home')">Back to Home</button>
       </div>
       <style>
         @keyframes invalid-shake {
@@ -272,12 +271,14 @@ function renderTicketVerification(container, ticketId) {
   const movie = booking.movie;
   container.innerHTML = `
     <div style="max-width:500px; margin:0 auto; padding:60px 20px; min-height:80vh; display:flex; flex-direction:column; align-items:center;">
-       <div style="font-size:60px; margin-bottom:16px;">🎟️</div>
-       <div style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#10b981; display:inline-flex; align-items:center; gap:8px; padding:10px 24px; border-radius:100px; font-weight:800; font-size:14px; margin-bottom:32px; letter-spacing:1.5px; box-shadow:0 0 20px rgba(16,185,129,0.2);">
-         <span style="font-size:18px;">✓</span> TICKET VERIFIED
-       </div>
+     <div style="width:48px;height:48px;background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:2px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+     </div>
+     <div style="background:rgba(16,185,129,0.15); border:1px solid #10b981; color:#10b981; display:inline-flex; align-items:center; gap:8px; padding:10px 24px; border-radius:2px; font-weight:800; font-size:14px; margin-bottom:32px; letter-spacing:1.5px;">
+       TICKET VERIFIED
+     </div>
        
-       <div class="ticket" style="text-align:left; max-width:100%; border:1px solid rgba(255,255,255,0.1); box-shadow:0 20px 40px rgba(0,0,0,0.4);">
+       <div class="ticket" style="text-align:left; max-width:100%; border:1px solid rgba(255,255,255,0.1);">
           <div class="ticket__header" style="background: ${movie.gradient || '#d4a574'}; padding:24px;">
             <div class="ticket__movie-info">
               <div style="font-size:10px; opacity:0.8; letter-spacing:2px; font-weight:800; margin-bottom:4px;">OFFICIAL MERCHANT</div>
@@ -288,7 +289,7 @@ function renderTicketVerification(container, ticketId) {
           
           <div class="ticket__body" style="padding:28px;">
             <div style="display:grid; grid-template-columns:1fr; gap:20px; margin-bottom:24px;">
-               <div style="background:rgba(255,255,255,0.03); border-radius:12px; padding:16px;">
+               <div style="background:rgba(255,255,255,0.03); border-radius:2px; padding:16px;">
                   <div style="font-size:10px; color:#888; font-weight:800; letter-spacing:1px; margin-bottom:4px;">STATUS</div>
                   <div style="color:#10b981; font-weight:900; font-size:18px;">CONFIRMED AT ${new Date(booking.bookedAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                </div>
@@ -331,7 +332,7 @@ function renderTicketVerification(container, ticketId) {
           </div>
        </div>
        
-       <button class="btn btn--ghost" style="margin-top:48px; border:1px solid var(--border-subtle); padding:12px 32px; border-radius:100px; color:var(--text-secondary);" onclick="navigate('home')">Return to Website</button>
+       <button class="btn btn--ghost" style="margin-top:48px; border:1px solid var(--border-subtle); padding:12px 32px; border-radius:2px; color:var(--text-secondary);" onclick="navigate('home')">Return to Website</button>
     </div>
   `;
 }
@@ -483,10 +484,10 @@ function downloadTicket() {
 
   // ── Details Grid ───────────────────────────────────────
   const details = [
-    { label: '📅 DATE', value: dateDisplay },
-    { label: '🕐 TIME', value: booking.showtime },
-    { label: '🖥️ SCREEN', value: booking.audi.name + ' — ' + booking.audi.type },
-    { label: '💺 SEATS', value: booking.seats.join(', ') }
+    { label: 'DATE', value: dateDisplay },
+    { label: 'TIME', value: booking.showtime },
+    { label: 'SCREEN', value: booking.audi.name + ' - ' + booking.audi.type },
+    { label: 'SEATS', value: booking.seats.join(', ') }
   ];
 
   details.forEach(d => {
@@ -505,7 +506,7 @@ function downloadTicket() {
   if (foodItems.length > 0) {
     ctx.font = 'bold 11px Inter, sans-serif';
     ctx.fillStyle = '#d4a574';
-    ctx.fillText('🍿 FOOD & BEVERAGES', padding + 8, y);
+    ctx.fillText('FOOD & BEVERAGES', padding + 8, y);
     y += 20;
 
     foodItems.forEach(fi => {
@@ -588,7 +589,7 @@ function downloadTicket() {
   ctx.font = 'bold 12px Inter, sans-serif';
   ctx.fillStyle = '#d4a574';
   ctx.textAlign = 'center';
-  ctx.fillText('📍 ' + THEATRE.shortName, W / 2, y);
+  ctx.fillText(THEATRE.shortName, W / 2, y);
   y += 18;
   ctx.font = '9px Inter, sans-serif';
   ctx.fillStyle = '#808090';

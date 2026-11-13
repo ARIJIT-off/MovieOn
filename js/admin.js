@@ -51,7 +51,21 @@ async function switchAdminBookingTab(period) {
 
 async function loadAdminBookings(period) {
   const container = document.getElementById('admin-bookings-content');
-  container.innerHTML = '<div class="admin-empty">Loading...</div>';
+  // Show skeleton rows while fetching
+  container.innerHTML = `
+    <div style="padding:8px 0;">
+      ${Array.from({length:5}, () => `
+        <div style="display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+          <div class="skeleton skeleton-line" style="width:80px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:160px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:70px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:100px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:150px;height:13px;flex-shrink:0;"></div>
+          <div class="skeleton skeleton-line" style="width:60px;height:13px;flex-shrink:0;"></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
 
   try {
     const res = await fetch(`${API_BASE}/api/admin/bookings?period=${period}`);

@@ -3,7 +3,7 @@
    Based on Official Design Specifications
    ═══════════════════════════════════════════════════════════════ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&display=swap');
+/* No external font imports — using system font stack for performance and neutrality */
 
 /* ── CSS Variables ─────────────────────────────────────────── */
 :root {
@@ -57,10 +57,16 @@
   --radius-lg: 12px;
   --radius-xl: 16px;
 
-  /* ── Typography ── */
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Montserrat', 'Outfit', 'Inter', sans-serif;
+  /* ── Typography — system font stack, no external imports ── */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
+
+  /* ── Border Radius — reduced, more precise ── */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
 
   /* ── Spacing Scale ── */
   --space-xs: 8px;
@@ -71,16 +77,14 @@
   --space-xxl: 48px;
   --space-xxxl: 64px;
 
-  /* ── Transitions ── */
-  --transition: 150ms ease;
-  --transition-normal: 200ms ease;
+  /* ── Transitions — no lift/scale on hover ── */
+  --transition: 100ms ease;
+  --transition-normal: 150ms ease;
 
   /* ── Sidebar ── */
   --sidebar-width: 340px;
   --header-height: 64px;
 }
-
-/* ── Reset & Base ──────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -157,11 +161,8 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: space-between;
   padding: 0 40px;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  border-bottom: 1px solid var(--border-subtle);
-  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+  background: #0a0a0f;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .header__brand {
@@ -184,9 +185,8 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   font-size: 16px;
   font-weight: 900;
-  color: #FFFFFF;
+  color: #000000;
   font-family: var(--font-display);
-  box-shadow: var(--shadow-glow);
   letter-spacing: -0.5px;
 }
 
@@ -200,7 +200,7 @@ img { max-width: 100%; display: block; }
 }
 
 .header__title span {
-  color: var(--text-primary);
+  color: #ffffff;
   font-weight: 500;
 }
 
@@ -216,7 +216,7 @@ img { max-width: 100%; display: block; }
   border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #aaaaaa;
   cursor: pointer;
   transition: var(--transition);
   border: 1px solid transparent;
@@ -234,7 +234,7 @@ img { max-width: 100%; display: block; }
 .nav-link--active {
   color: var(--color-gold);
   border: 1px solid rgba(212,175,55,0.35);
-  background: rgba(212,175,55,0.06);
+  background: rgba(212,175,55,0.08);
 }
 
 /* ── Sidebar ───────────────────────────────────────────────── */
@@ -330,7 +330,7 @@ img { max-width: 100%; display: block; }
 
 .tech-badge {
   padding: 4px 12px;
-  border-radius: 100px;
+  border-radius: 2px;
   font-size: 10px;
   font-weight: 700;
   color: var(--color-gold);
@@ -395,8 +395,7 @@ img { max-width: 100%; display: block; }
 }
 
 .movie-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
   border-color: var(--border-light);
 }
 
@@ -441,7 +440,7 @@ img { max-width: 100%; display: block; }
   font-size: 11px;
   font-weight: 800;
   color: #000000;
-  box-shadow: 0 2px 8px rgba(212,175,55,0.4);
+  box-shadow: none;
   flex-direction: column;
   line-height: 1;
 }
@@ -609,7 +608,6 @@ img { max-width: 100%; display: block; }
   background: var(--color-gold);
   border-color: var(--color-gold);
   color: #000000;
-  box-shadow: 0 2px 8px rgba(212,175,55,0.3);
 }
 
 .date-btn__day {
@@ -668,7 +666,6 @@ img { max-width: 100%; display: block; }
   background: var(--color-gold);
   color: #000000;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(212,175,55,0.25);
 }
 
 /* ── Audi Selector ─────────────────────────────────────────── */
@@ -693,13 +690,11 @@ img { max-width: 100%; display: block; }
 .audi-card:hover {
   border-color: var(--border-light);
   background: var(--bg-card-hover);
-  transform: translateY(-2px);
 }
 
 .audi-card--active {
   border-color: var(--color-gold);
   background: var(--bg-card-hover);
-  box-shadow: 0 0 0 3px rgba(212,175,55,0.15);
 }
 
 .audi-card__name {
@@ -774,7 +769,6 @@ img { max-width: 100%; display: block; }
 .form-group select:focus,
 .form-group input:focus {
   border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px rgba(212,175,55,0.15);
 }
 
 .form-group select option {
@@ -803,7 +797,6 @@ img { max-width: 100%; display: block; }
   margin: 0 auto 12px;
   background: var(--color-gold);
   border-radius: 0 0 50% 50%;
-  box-shadow: 0 4px 20px rgba(212,175,55,0.3);
 }
 
 .seat-map__screen span {
@@ -835,7 +828,7 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   letter-spacing: 1.5px;
   background: rgba(212,175,55,0.04);
-  border-left: 3px solid var(--color-gold);
+  border: 1px solid rgba(212,175,55,0.12);
   color: var(--color-gold);
 }
 
@@ -907,8 +900,6 @@ img { max-width: 100%; display: block; }
 .seat--available:hover {
   border-color: #27AE60;
   background: rgba(39,174,96,0.15);
-  transform: scale(1.15);
-  z-index: 2;
 }
 
 /* Booked: red, semi-transparent */
@@ -925,7 +916,6 @@ img { max-width: 100%; display: block; }
 .seat--selected {
   background: var(--color-gold);
   border-color: var(--color-gold);
-  box-shadow: 0 0 8px rgba(212,175,55,0.35);
 }
 
 .seat--selected .seat__num {
@@ -933,11 +923,10 @@ img { max-width: 100%; display: block; }
   font-weight: 800;
 }
 
-/* AI-recommended: blue glow */
+/* AI-recommended: blue highlight */
 .seat--recommended {
   background: rgba(52,152,219,0.2);
   border-color: var(--accent-blue);
-  box-shadow: 0 0 8px rgba(52,152,219,0.25);
   animation: pulse-blue 1.5s ease infinite;
 }
 
@@ -1066,13 +1055,11 @@ img { max-width: 100%; display: block; }
 
 .btn--primary:hover {
   background: var(--color-gold-light);
-  box-shadow: 0 4px 16px rgba(212,175,55,0.4);
-  transform: translateY(-2px);
+  box-shadow: none;
 }
 
 .btn--primary:active {
   background: var(--color-gold-dark);
-  transform: translateY(0);
 }
 
 .btn--secondary {
@@ -1083,8 +1070,6 @@ img { max-width: 100%; display: block; }
 
 .btn--secondary:hover {
   background: rgba(212,175,55,0.1);
-  box-shadow: var(--shadow-glow);
-  transform: translateY(-1px);
 }
 
 .btn--ghost {
@@ -1558,7 +1543,6 @@ img { max-width: 100%; display: block; }
 .payment-option--active {
   border-color: var(--color-gold);
   background: rgba(212,175,55,0.06);
-  box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
 }
 
 .payment-option input[type="radio"] {
@@ -1636,7 +1620,6 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   margin: 0 auto 16px;
   animation: scaleIn 0.5s ease 0.2s both;
-  box-shadow: 0 0 32px rgba(212,175,55,0.35);
 }
 
 .badge-circle svg {
@@ -1749,19 +1732,16 @@ img { max-width: 100%; display: block; }
   align-items: center;
   justify-content: center;
   transition: all 200ms ease;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
 }
 
 .step-nav:hover {
   background: rgba(212,175,55,0.12);
   border-color: var(--color-gold);
   color: var(--color-gold);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(212,175,55,0.2);
 }
 
 .step-nav:active {
-  transform: translateY(-50%) scale(0.95);
+  transform: translateY(-50%);
 }
 
 .step-nav--back { left: 12px; }
@@ -1778,3 +1758,122 @@ img { max-width: 100%; display: block; }
   .step-nav--back { left: 6px; }
   .step-nav--next { right: 6px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   UI FIXES — Applied Nov 2026
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── 1. Ticket text contrast fix ─────────────────────────────
+   Ensures ticket body text is legible on dark background       */
+.ticket__details-grid {
+  color: #e0e0e0 !important;
+}
+
+.ticket__detail-label {
+  color: #999 !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ticket__detail-value {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+}
+
+.ticket__footer-info p {
+  color: #cccccc !important;
+}
+
+.ticket__venue {
+  color: #aaaaaa !important;
+}
+
+.ticket__venue-address {
+  color: #888888 !important;
+  font-size: 12px !important;
+}
+
+/* ── 2. Skeleton Loaders ──────────────────────────────────────
+   Shimmer placeholder used while async data loads             */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 1200px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: var(--radius-sm);
+  display: block;
+}
+
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 10px;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton-line--short  { width: 40%; }
+.skeleton-line--medium { width: 65%; }
+.skeleton-line--full   { width: 100%; }
+.skeleton-line--title  { height: 20px; width: 55%; margin-bottom: 14px; }
+
+.skeleton-block {
+  width: 100%;
+  height: 80px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+/* Seat map skeleton */
+.skeleton-seat-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  padding: 28px;
+}
+
+.skeleton-seat-row {
+  display: flex;
+  gap: 6px;
+}
+
+.skeleton-seat {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+/* ── 3. Admin table row contrast fix ──────────────────────────*/
+.admin-table td {
+  color: #d0d0d0;
+}
+
+/* ── 4. Remove remaining translateY hover lifts globally ──────*/
+.movie-card__poster-img {
+  transition: none;
+}
+
+.movie-card:hover .movie-card__poster-img {
+  transform: none;
+}
+
+/* ── 5. Sidebar dark to match page ───────────────────────────*/
+.sidebar {
+  background: #0d0d14;
+  border-left: 1px solid rgba(255,255,255,0.08);
+  box-shadow: none;
+}
+
+/* ── 6. Remove em-dash from sidebar theatre name in CSS ──────*/
+/* (em-dashes in JS data.js strings remain as hyphens after JS fix) */

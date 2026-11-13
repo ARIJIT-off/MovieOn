@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    MOViEON — Auth / Login Page Styles
    ═══════════════════════════════════════════════════════════════ */
-
 /* Auth body override */
 .auth-body {
   background: #0a0a0f;
@@ -39,21 +38,20 @@
 .auth-logo {
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, #f97316, #ea580c);
-  border-radius: 16px;
+  background: var(--color-gold, #C9A84C);
+  border-radius: 2px;
   font-size: 28px;
   font-weight: 900;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 12px;
-  box-shadow: 0 8px 24px rgba(249,115,22,0.4);
 }
 
 .auth-title {
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
   font-size: 32px;
   font-weight: 900;
   color: #fff;
@@ -77,7 +75,7 @@
   gap: 8px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 50px;
+  border-radius: 2px;
   padding: 4px;
   width: 100%;
 }
@@ -86,20 +84,19 @@
   flex: 1;
   padding: 10px 20px;
   border: none;
-  border-radius: 50px;
+  border-radius: 2px;
   font-size: 14px;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, sans-serif;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background 100ms ease, color 100ms ease;
   background: transparent;
   color: #666;
 }
 
 .auth-tab--active {
-  background: linear-gradient(135deg, #f97316, #ea580c);
-  color: #fff;
-  box-shadow: 0 4px 12px rgba(249,115,22,0.35);
+  background: var(--color-gold, #C9A84C);
+  color: #000;
 }
 
 /* Card */
@@ -107,9 +104,8 @@
   width: 100%;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 20px;
+  border-radius: 4px;
   padding: 32px 28px;
-  backdrop-filter: blur(20px);
 }
 
 .auth-role-label {
@@ -117,7 +113,7 @@
   font-weight: 700;
   color: #fff;
   margin-bottom: 24px;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 /* Fields */
@@ -140,12 +136,12 @@
   padding: 14px 16px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 10px;
+  border-radius: 2px;
   color: #fff;
   font-size: 15px;
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, sans-serif;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border-color 0.15s;
   box-sizing: border-box;
 }
 
@@ -162,32 +158,30 @@
 .auth-btn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #f97316, #ea580c);
+  background: var(--color-gold, #C9A84C);
   border: none;
-  border-radius: 10px;
-  color: #fff;
+  border-radius: 2px;
+  color: #000;
   font-size: 15px;
   font-weight: 700;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 100ms ease;
   margin-top: 8px;
   letter-spacing: 0.03em;
 }
 
 .auth-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(249,115,22,0.4);
+  background: #D4AF37;
 }
 
 .auth-btn:active {
-  transform: translateY(0);
+  background: #A8872E;
 }
 
 .auth-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  transform: none;
 }
 
 /* OTP hint */
@@ -212,23 +206,22 @@
   text-align: center;
   font-size: 28px;
   font-weight: 800;
-  font-family: 'Outfit', monospace;
+  font-family: system-ui, monospace;
   background: rgba(255,255,255,0.06);
   border: 2px solid rgba(255,255,255,0.12);
-  border-radius: 12px;
+  border-radius: 2px;
   color: #fff;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s;
 }
 
 .auth-otp-box:focus {
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249,115,22,0.2);
+  border-color: var(--color-gold, #C9A84C);
 }
 
 .auth-otp-box.filled {
-  border-color: #f97316;
-  color: #f97316;
+  border-color: var(--color-gold, #C9A84C);
+  color: var(--color-gold, #C9A84C);
 }
 
 /* Link button */
@@ -240,8 +233,8 @@
   cursor: pointer;
   display: block;
   margin: 12px auto 0;
-  font-family: 'Inter', sans-serif;
-  transition: color 0.2s;
+  font-family: system-ui, sans-serif;
+  transition: color 0.1s;
 }
 
 .auth-link-btn:hover {
@@ -254,7 +247,7 @@
   padding: 12px 16px;
   background: rgba(239,68,68,0.12);
   border: 1px solid rgba(239,68,68,0.3);
-  border-radius: 8px;
+  border-radius: 2px;
   color: #f87171;
   font-size: 13px;
   line-height: 1.5;
@@ -278,31 +271,31 @@
   gap: 8px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 50px;
+  border-radius: 2px;
   padding: 6px 14px 6px 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: border-color 0.1s, background 0.1s;
   color: #fff;
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, sans-serif;
   font-size: 13px;
 }
 
 .profile-btn:hover {
-  border-color: #f97316;
-  background: rgba(249,115,22,0.1);
+  border-color: rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.1);
 }
 
 .profile-avatar {
   width: 30px;
   height: 30px;
-  background: linear-gradient(135deg, #f97316, #ea580c);
+  background: #c9a84c;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 13px;
-  color: #fff;
+  color: #000;
 }
 
 .profile-email-short {
@@ -317,15 +310,15 @@
 .header__logout {
   background: rgba(239,68,68,0.12);
   border: 1px solid rgba(239,68,68,0.3);
-  border-radius: 8px;
+  border-radius: 2px;
   color: #f87171;
   font-size: 13px;
   font-weight: 600;
   padding: 8px 16px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.1s;
   margin-left: 8px;
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 .header__logout:hover {
@@ -340,14 +333,14 @@
   width: 360px;
   background: #0f0f1a;
   border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 16px;
+  border-radius: 4px;
   z-index: 999;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  animation: slideDown 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  animation: slideDown 0.15s ease;
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -369,7 +362,7 @@
   font-size: 16px;
   font-weight: 700;
   margin: 0;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 .profile-panel__close {
@@ -378,14 +371,14 @@
   color: #666;
   font-size: 18px;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color 0.1s;
 }
 
 .profile-panel__close:hover { color: #fff; }
 
 .profile-panel__info {
   background: rgba(255,255,255,0.04);
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 14px;
   margin-bottom: 16px;
 }
@@ -419,7 +412,7 @@
   font-weight: 700;
   color: #fff;
   margin: 0 0 12px;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 .profile-orders-loading {
@@ -433,7 +426,7 @@
 .profile-order-card {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 12px;
   margin-bottom: 10px;
 }
@@ -456,20 +449,20 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(249,115,22,0.15);
-  border: 1px solid rgba(249,115,22,0.3);
-  border-radius: 6px;
-  color: #f97316;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 2px;
+  color: #c9a84c;
   font-size: 12px;
   font-weight: 600;
   padding: 6px 12px;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s;
+  transition: background 0.1s;
 }
 
 .profile-order-ticket-btn:hover {
-  background: rgba(249,115,22,0.25);
+  background: rgba(201,168,76,0.22);
 }
 
 /* ── Admin Panel Styles ──────────────────────────────────────── */
@@ -483,7 +476,7 @@
   font-size: 28px;
   font-weight: 800;
   color: #fff;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
   margin-bottom: 8px;
 }
 
@@ -496,7 +489,7 @@
 .admin-section {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
+  border-radius: 4px;
   padding: 24px;
   margin-bottom: 24px;
 }
@@ -512,7 +505,7 @@
   font-size: 16px;
   font-weight: 700;
   color: #fff;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 /* Admin Tabs (Previous / Upcoming) */
@@ -524,33 +517,32 @@
 
 .admin-booking-tab {
   padding: 8px 20px;
-  border-radius: 50px;
+  border-radius: 2px;
   border: 1px solid rgba(255,255,255,0.12);
   background: transparent;
   color: #888;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  font-family: system-ui, sans-serif;
 }
 
 .admin-booking-tab--active {
-  background: linear-gradient(135deg, #f97316, #ea580c);
-  color: #fff;
+  background: var(--color-gold, #C9A84C);
+  color: #000;
   border-color: transparent;
-  box-shadow: 0 4px 12px rgba(249,115,22,0.3);
 }
 
 .admin-booking-tab:hover:not(.admin-booking-tab--active) {
-  border-color: #f97316;
-  color: #f97316;
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
 }
 
 /* Admin table */
 .admin-table-wrap {
   overflow-x: auto;
-  border-radius: 10px;
+  border-radius: 2px;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -561,8 +553,8 @@
 }
 
 .admin-table th {
-  background: rgba(249,115,22,0.12);
-  color: #f97316;
+  background: rgba(201,168,76,0.1);
+  color: #c9a84c;
   padding: 12px 14px;
   text-align: left;
   font-weight: 700;
@@ -591,14 +583,14 @@
   gap: 6px;
   background: rgba(74,222,128,0.12);
   border: 1px solid rgba(74,222,128,0.3);
-  border-radius: 8px;
+  border-radius: 2px;
   color: #4ade80;
   font-size: 13px;
   font-weight: 600;
   padding: 8px 16px;
   cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
+  transition: background 0.1s;
+  font-family: system-ui, sans-serif;
 }
 
 .admin-download-btn:hover {
@@ -617,34 +609,33 @@
   padding: 10px 14px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 8px;
+  border-radius: 2px;
   color: #fff;
   font-size: 14px;
-  font-family: 'Inter', sans-serif;
+  font-family: system-ui, sans-serif;
   outline: none;
 }
 
 .admin-add-input:focus {
-  border-color: #f97316;
+  border-color: var(--color-gold, #C9A84C);
 }
 
 .admin-add-btn {
   padding: 10px 20px;
-  background: linear-gradient(135deg, #f97316, #ea580c);
+  background: var(--color-gold, #C9A84C);
   border: none;
-  border-radius: 8px;
-  color: #fff;
+  border-radius: 2px;
+  color: #000;
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
   white-space: nowrap;
-  transition: all 0.2s;
+  transition: background 0.1s;
 }
 
 .admin-add-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(249,115,22,0.3);
+  background: #D4AF37;
 }
 
 /* Admin List */
@@ -674,13 +665,13 @@
 .admin-remove-btn {
   background: rgba(239,68,68,0.12);
   border: 1px solid rgba(239,68,68,0.3);
-  border-radius: 6px;
+  border-radius: 2px;
   color: #f87171;
   font-size: 12px;
   padding: 5px 12px;
   cursor: pointer;
-  transition: all 0.2s;
-  font-family: 'Inter', sans-serif;
+  transition: background 0.1s;
+  font-family: system-ui, sans-serif;
 }
 
 .admin-remove-btn:hover {
@@ -711,7 +702,6 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
   z-index: 2000;
   display: flex;
   align-items: center;
@@ -722,7 +712,7 @@
 .ticket-modal {
   background: #0f0f1a;
   border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 20px;
+  border-radius: 4px;
   padding: 32px;
   max-width: 400px;
   width: 100%;
@@ -746,7 +736,7 @@
   font-weight: 800;
   color: #fff;
   margin-bottom: 4px;
-  font-family: 'Outfit', sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
 .ticket-modal__sub {
@@ -757,7 +747,7 @@
 
 .ticket-qr-wrap {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 16px;
   display: inline-block;
   margin-bottom: 20px;
@@ -766,7 +756,7 @@
 .ticket-info {
   text-align: left;
   background: rgba(255,255,255,0.04);
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 14px;
   margin-bottom: 16px;
   font-size: 13px;
@@ -778,18 +768,17 @@
   display: block;
   width: 100%;
   padding: 12px;
-  background: linear-gradient(135deg, #f97316, #ea580c);
+  background: var(--color-gold, #C9A84C);
   border: none;
-  border-radius: 10px;
-  color: #fff;
+  border-radius: 2px;
+  color: #000;
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
-  font-family: 'Outfit', sans-serif;
-  transition: all 0.2s;
+  font-family: system-ui, sans-serif;
+  transition: background 0.1s;
 }
 
 .ticket-download-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(249,115,22,0.35);
+  background: #D4AF37;
 }
