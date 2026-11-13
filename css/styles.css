@@ -13,24 +13,24 @@
   --color-gold-dark: #A8872E;
   --color-gold-dim: #9A7B28;
 
-  /* ── Background Scale (Light) ── */
-  --bg-root: #FFFFFF;
-  --bg-primary: #FFFFFF;
-  --bg-dark: #F4F4F6;
-  --bg-card: #FFFFFF;
-  --bg-card-hover: #F8F8FC;
-  --bg-glass: rgba(255, 255, 255, 0.92);
-  --bg-input: #F7F7F9;
+  /* ── Background Scale (Dark Cinema) ── */
+  --bg-root: #0a0a0f;
+  --bg-primary: #0f0f18;
+  --bg-dark: #0a0a0f;
+  --bg-card: #13131e;
+  --bg-card-hover: #1a1a28;
+  --bg-glass: rgba(15, 15, 24, 0.95);
+  --bg-input: #171724;
 
   /* ── Borders ── */
-  --border-subtle: #E8E8EE;
-  --border-light: #D0D0DA;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.16);
   --border-accent: rgba(201, 168, 76, 0.5);
 
   /* ── Text ── */
-  --text-primary: #111118;
-  --text-secondary: #555560;
-  --text-muted: #9090A0;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #8e8e9e;
 
   /* ── Accent Aliases (keep compat with JS) ── */
   --accent-gold: #C9A84C;
@@ -244,13 +244,13 @@ img { max-width: 100%; display: block; }
   right: 0;
   width: var(--sidebar-width);
   height: calc(100vh - var(--header-height));
-  background: #FAFAFA;
+  background: #0d0d14;
   border-left: 1px solid var(--border-subtle);
   overflow-y: auto;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  box-shadow: -2px 0 12px rgba(0,0,0,0.06);
+  box-shadow: none;
 }
 
 
@@ -528,7 +528,7 @@ img { max-width: 100%; display: block; }
   margin-bottom: 14px;
   line-height: 1.15;
   letter-spacing: -0.5px;
-  color: var(--text-primary);
+  color: #ffffff;
 }
 
 .movie-detail__badges {
@@ -544,8 +544,8 @@ img { max-width: 100%; display: block; }
   font-size: 12px;
   font-weight: 600;
   border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  background: rgba(255,255,255,0.04);
+  color: #e0e0e0;
+  background: rgba(255,255,255,0.06);
 }
 
 .detail-badge--rating {
@@ -556,7 +556,7 @@ img { max-width: 100%; display: block; }
 
 .movie-detail__synopsis {
   font-size: 16px;
-  color: var(--text-primary);
+  color: #f0f0f5;
   line-height: 1.7;
   margin-bottom: 20px;
   max-width: 620px;
@@ -564,12 +564,12 @@ img { max-width: 100%; display: block; }
 
 .movie-detail__cast {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: #cccccc;
   margin-top: 8px;
 }
 
 .movie-detail__cast strong {
-  color: var(--text-secondary);
+  color: #ffffff;
 }
 
 /* ── Date Picker ───────────────────────────────────────────── */

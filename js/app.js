@@ -13,9 +13,9 @@ const state = {
   seatTypePreference: 'classic',
   selectedSeats: [],
   foodItems: {}, // { id: qty }
-  userName: 'Guest User',
-  userMobile: '+91 9876543210',
-  userEmail: 'guest@movieon.com',
+  userName: '',
+  userMobile: '',
+  userEmail: '',
   paymentMethod: 'upi'
 };
 
@@ -549,10 +549,10 @@ window.updateFood = function(id, delta) {
 function renderCheckout(container) {
   const total = calculateSeatTotal(state.selectedAudi, state.selectedSeats) + calculateFoodTotal(state.foodItems) + 30;
 
-  // Pre-fill from session
-  const sessionEmail = (typeof session !== 'undefined' && session.email) ? session.email : state.userEmail;
-  const sessionPhone = (typeof session !== 'undefined' && session.phone) ? session.phone : state.userMobile;
-  const sessionName = (typeof session !== 'undefined' && session.name) ? session.name : state.userName;
+  // Pre-fill from session (empty if not provided)
+  const sessionEmail = (typeof session !== 'undefined' && session.email) ? session.email : (state.userEmail || '');
+  const sessionPhone = (typeof session !== 'undefined' && session.phone) ? session.phone : (state.userMobile || '');
+  const sessionName = (typeof session !== 'undefined' && session.name) ? session.name : (state.userName || '');
   const razorpayMobileRequired = `<span style="color:#f97316;font-size:12px;"> ⚠ Required for Razorpay</span>`;
 
   let html = `
@@ -569,7 +569,7 @@ function renderCheckout(container) {
              </div>
              <div class="form-group">
                <label>Mobile Number ${razorpayMobileRequired}</label>
-               <input type="text" value="${sessionPhone}" id="chk-mobile" placeholder="+91 XXXXXXXXXX (optional for UPI)" />
+               <input type="text" value="${sessionPhone}" id="chk-mobile" placeholder="Enter mobile number" />
              </div>
            </div>
            <div class="form-group" style="margin-bottom:0;">
