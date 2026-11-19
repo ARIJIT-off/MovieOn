@@ -702,8 +702,7 @@ window.selectPayMethod = function(method) {
 
 // ── Payment Server Config ────────────────────────────────────
 // Auto-detect: use local Express server in dev, Vercel API routes in production
-const IS_LOCAL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const PAYMENT_SERVER = IS_LOCAL ? 'http://localhost:4000' : '';
+const PAYMENT_SERVER = '';
 const RAZORPAY_KEY_ID = 'rzp_test_SXF85KUUEBsHkt';
 
 let upiTimerInterval = null;

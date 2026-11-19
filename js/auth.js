@@ -3,7 +3,7 @@
 // OTP-based login for Admin & User roles
 // ═══════════════════════════════════════════════════════════════
 
-const API_BASE = 'http://localhost:4000';
+const API_BASE = '';
 
 // Global session state
 const session = {

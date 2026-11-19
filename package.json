@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "razorpay": "^2.9.2"
+    "mongoose": "^7.6.3",
+    "nodemailer": "^6.9.7",
+    "qrcode": "^1.5.3",
+    "razorpay": "^2.9.2",
+    "xlsx": "^0.18.5"
   }
 }
